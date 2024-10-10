@@ -1,0 +1,49 @@
+@import url("base.css");
+
+#titleLbl {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #767676;
+}
+
+#sellMenu, #historyMenu {
+    -fx-background-color: #5D5E5E;
+}
+
+#showingsMenu, #showingsMenu:disabled {
+    -fx-background-color: #E5E5E5;
+    -fx-opacity: 1;
+}
+
+#showingsMenu .label, #showingsMenu:disabled .label {
+    -fx-text-fill: #5D5E5E;
+    -fx-opacity: 1;
+}
+
+#sellMenu:hover, #historyMenu:hover {
+    -fx-background-color: #808080;
+}
+
+#roomLbl {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+#addShowingButton {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+}
+
+#editShowingButton {
+    -fx-background-color: #797979;
+    -fx-text-fill: white;
+}
+
+#deleteShowingButton {
+    -fx-background-color: #C60108;
+    -fx-text-fill: white;
+}
+
+#addShowingButton:hover, #editShowingButton:hover, #deleteShowingButton:hover {
+    -fx-background-color: #989898;
+}
