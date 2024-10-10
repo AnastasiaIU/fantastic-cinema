@@ -1,4 +1,4 @@
-package org.example.UI;
+package org.example.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
-import org.example.Model.AccessLevel;
-import org.example.Model.User;
+import org.example.model.AccessLevel;
+import org.example.model.User;
 
 import java.io.IOException;
 

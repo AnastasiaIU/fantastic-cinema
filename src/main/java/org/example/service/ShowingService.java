@@ -1,8 +1,8 @@
-package org.example.Service;
+package org.example.service;
 
-import org.example.DAL.ShowingDao;
-import org.example.Model.Movie;
-import org.example.Model.Showing;
+import org.example.dal.ShowingDao;
+import org.example.model.Movie;
+import org.example.model.Showing;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package org.example.DAL;
+package org.example.dal;
 
 import org.example.AppContext;
 import org.example.Database;
-import org.example.Model.User;
+import org.example.model.User;
 
 public class UserDao {
     private Database database;

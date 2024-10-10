@@ -1,4 +1,4 @@
-package org.example.UI;
+package org.example.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,8 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.Model.Showing;
-import org.example.Service.ShowingService;
+import org.example.model.Showing;
+import org.example.service.ShowingService;
 
 import java.io.IOException;
 import java.net.URL;

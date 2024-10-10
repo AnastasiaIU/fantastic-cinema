@@ -1,9 +1,9 @@
-package org.example.DAL;
+package org.example.dal;
 
 import org.example.AppContext;
 import org.example.Database;
-import org.example.Model.Movie;
-import org.example.Model.Showing;
+import org.example.model.Movie;
+import org.example.model.Showing;
 
 import java.util.List;
 

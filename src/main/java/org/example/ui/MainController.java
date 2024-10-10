@@ -1,4 +1,4 @@
-package org.example.UI;
+package org.example.ui;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.util.Duration;
-import org.example.Model.AccessLevel;
-import org.example.Model.User;
+import org.example.model.AccessLevel;
+import org.example.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

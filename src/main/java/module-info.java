@@ -1,11 +1,11 @@
-module org.example.UI {
+module org.example.ui {
     requires javafx.fxml;
-    requires com.jfoenix;
     requires javafx.controls;
-    requires org.burningwave.core;
 
 
-    opens org.example.UI to javafx.fxml;
-    opens org.example.Model to javafx.base;
-    exports org.example.UI;
+    opens org.example.ui to javafx.fxml;
+    opens org.example.model to javafx.base;
+    exports org.example.ui;
+    exports org.example;
+    opens org.example to javafx.fxml;
 }

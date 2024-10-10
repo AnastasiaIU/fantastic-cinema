@@ -1,23 +1,20 @@
-package org.example.UI;
+package org.example.ui;
 
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTimePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.Model.Movie;
-import org.example.Model.Showing;
-import org.example.Model.User;
-import org.example.Service.ShowingService;
+import org.example.model.Movie;
+import org.example.model.Showing;
+import org.example.model.User;
+import org.example.service.ShowingService;
 
 import java.io.IOException;
 
@@ -32,9 +29,11 @@ public class AddEditShowingController extends BaseController {
     @FXML
     private Button confirmButton;
     @FXML
-    private JFXDatePicker date;
+    private Label date;
     @FXML
-    private JFXTimePicker time;
+    private Label time;
+    @FXML
+    private TextField titleTextField;
 
     public void initialize(User currentUser, Menu clickedMenu, Showing selectedShowing, boolean isAdd) {
         super.initialize(currentUser, clickedMenu);
@@ -69,9 +68,5 @@ public class AddEditShowingController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void getDate(ActionEvent event) {
     }
 }

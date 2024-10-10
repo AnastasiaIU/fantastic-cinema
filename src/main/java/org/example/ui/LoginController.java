@@ -1,4 +1,4 @@
-package org.example.UI;
+package org.example.ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.Model.User;
-import org.example.Service.LoginService;
+import org.example.model.User;
+import org.example.service.LoginService;
 
 import java.io.IOException;
 import java.net.URL;

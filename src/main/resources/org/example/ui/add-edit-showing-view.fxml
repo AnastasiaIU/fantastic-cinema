@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UI.AddEditShowingController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ui.AddEditShowingController">
     <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
         <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../img/logo.png" />
@@ -56,13 +55,16 @@
             <Insets bottom="6.0" />
          </VBox.margin>
       </Label>
-      <TextField maxWidth="300.0" prefWidth="300.0">
+      <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0">
          <VBox.margin>
             <Insets bottom="16.0" />
          </VBox.margin>
       </TextField>
       <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: " />
-      <JFXTimePicker defaultColor="BLACK" promptText="HH:MM PM" />
+      <Label text="HH:MM PM">
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin></Label>
       <Label text="Start date and time:">
          <VBox.margin>
             <Insets bottom="6.0" />
@@ -70,11 +72,11 @@
       </Label>
       <HBox maxWidth="1.7976931348623157E308">
          <children>
-            <JFXDatePicker fx:id="date" defaultColor="BLACK" promptText="DD/MM/YYYY">
+            <Label fx:id="date" text="DD/MM/YYYY">
                <HBox.margin>
                   <Insets right="16.0" />
-               </HBox.margin></JFXDatePicker>
-            <JFXTimePicker fx:id="time" defaultColor="BLACK" promptText="HH:MM PM" />
+               </HBox.margin></Label>
+            <Label fx:id="time" text="HH:MM PM" />
          </children>
          <VBox.margin>
             <Insets bottom="16.0" />

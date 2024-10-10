@@ -1,7 +1,7 @@
-package org.example.Service;
+package org.example.service;
 
-import org.example.DAL.UserDao;
-import org.example.Model.User;
+import org.example.dal.UserDao;
+import org.example.model.User;
 
 public class LoginService {
     private UserDao userDao;
