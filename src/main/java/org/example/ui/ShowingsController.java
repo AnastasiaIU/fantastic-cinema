@@ -1,5 +1,6 @@
 package org.example.ui;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import org.example.service.ShowingService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -30,6 +32,12 @@ public class ShowingsController extends BaseController implements Initializable 
     private Button deleteShowingButton;
     @FXML
     private Label errorLbl;
+    @FXML
+    TableColumn<Showing, String> seatsLeftColumn;
+    @FXML
+    TableColumn<Showing, String> startColumn;
+    @FXML
+    TableColumn<Showing, String> endColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,8 +50,7 @@ public class ShowingsController extends BaseController implements Initializable 
                     if (newSelection.intValue() != -1) {
                         editShowingButton.setDisable(false);
                         deleteShowingButton.setDisable(false);
-                    }
-                    else {
+                    } else {
                         editShowingButton.setDisable(true);
                         deleteShowingButton.setDisable(true);
                     }
@@ -52,6 +59,18 @@ public class ShowingsController extends BaseController implements Initializable 
         );
 
         showingsTableView.getSelectionModel().clearSelection();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        startColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getStartTime().format(formatter))
+        );
+        endColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getStartTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
+        );
+        seatsLeftColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getSeats())
+        );
     }
 
     @FXML
@@ -60,8 +79,7 @@ public class ShowingsController extends BaseController implements Initializable 
 
         if (selectedShowing.isTicketsSold()) {
             errorLbl.setVisible(true);
-        }
-        else {
+        } else {
             boolean userChoice = showConfirmationDialog(selectedShowing);
 
             if (userChoice) {
@@ -77,7 +95,7 @@ public class ShowingsController extends BaseController implements Initializable 
         alert.setHeaderText(String.format("Are you sure you want to delete \"%s\"?", selectedShowing.getTitle()));
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             return true;
         } else {
             // if user chose CANCEL or closed the dialog
@@ -104,7 +122,7 @@ public class ShowingsController extends BaseController implements Initializable 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-edit-showing-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            Stage stage = (Stage)showingsTableView.getScene().getWindow();
+            Stage stage = (Stage) showingsTableView.getScene().getWindow();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/org/example/css/add-edit-showing-view.css").toExternalForm());
 

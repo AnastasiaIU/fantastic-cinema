@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.dal.ShowingDao;
-import org.example.model.Movie;
 import org.example.model.Showing;
 
 import java.util.List;
@@ -19,9 +18,5 @@ public class ShowingService {
 
     public void deleteShowing(Showing selectedShowing) {
         showingDao.deleteShowing(selectedShowing);
-    }
-
-    public List<Movie> getAllMovies() {
-        return showingDao.getAllMovies();
     }
 }

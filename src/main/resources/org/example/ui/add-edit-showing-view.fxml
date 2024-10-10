@@ -50,44 +50,49 @@
                 <Insets bottom="12.0" />
             </VBox.margin>
         </Label>
-      <Label text="Title:">
+        <Label text="Title:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0" promptText="Title">
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </TextField>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: ">
          <VBox.margin>
             <Insets bottom="6.0" />
-         </VBox.margin>
-      </Label>
-      <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0">
-         <VBox.margin>
-            <Insets bottom="16.0" />
-         </VBox.margin>
-      </TextField>
-      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: " />
-      <Label text="HH:MM PM">
-         <VBox.margin>
-            <Insets bottom="16.0" />
          </VBox.margin></Label>
-      <Label text="Start date and time:">
-         <VBox.margin>
-            <Insets bottom="6.0" />
-         </VBox.margin>
-      </Label>
-      <HBox maxWidth="1.7976931348623157E308">
-         <children>
-            <Label fx:id="date" text="DD/MM/YYYY">
-               <HBox.margin>
-                  <Insets right="16.0" />
-               </HBox.margin></Label>
-            <Label fx:id="time" text="HH:MM PM" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="16.0" />
-         </VBox.margin>
-      </HBox>
-      <Label text="End time and date:">
-         <VBox.margin>
-            <Insets bottom="6.0" />
-         </VBox.margin>
-      </Label>
-      <Label text="Label" />
+        <TextField fx:id="durationTextField" maxWidth="100.0" prefWidth="100.0" promptText="HH:MM">
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </TextField>
+        <Label text="Start date and time:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <HBox maxWidth="1.7976931348623157E308">
+            <children>
+                <Label fx:id="date" text="DD/MM/YYYY">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </Label>
+                <Label fx:id="time" text="HH:MM PM" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </HBox>
+        <Label text="End time and date:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <Label text="Label" />
         <HBox alignment="BOTTOM_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
             <children>
                 <Button fx:id="confirmButton" minHeight="30.0" mnemonicParsing="false" onAction="#onConfirmButtonClick" HBox.hgrow="NEVER">

@@ -1,65 +1,65 @@
 package org.example.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 
 public class Showing {
     private LocalDateTime startTime;
-    private Room room;
     private int ticketsSold;
-    private Movie movie;
-
-    // fields for the TableView
-    private String start;
-    private String end;
+    private LocalTime duration;
     private String title;
-    private String seats;
+    private int seats;
 
-    // constructor for the TableView
-    public Showing(String start, String end, String title, String seats) {
-        this.start = start;
-        this.end = end;
+    public Showing(LocalDateTime startTime, int ticketsSold, LocalTime duration, String title, int seats) {
+        this.startTime = startTime;
+        this.ticketsSold = ticketsSold;
+        this.duration = duration;
         this.title = title;
         this.seats = seats;
     }
 
-    public Showing(LocalDateTime startTime, Movie movie, Room room, int ticketsSold) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-        this.movie = movie;
-        this.room = room;
+    }
+
+    public void setTicketsSold(int ticketsSold) {
         this.ticketsSold = ticketsSold;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setDuration(LocalTime duration) {
+        this.duration = duration;
     }
-    public void setEnd(String end) {
-        this.end = end;
-    }
+
     public void setTitle(String title) {
         this.title = title;
     }
-    public void setSeats(String seats) {
+
+    public void setSeats(int seats) {
         this.seats = seats;
     }
 
-    public String getStart() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return startTime.format(formatter);
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public String getEnd() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return (startTime.plusSeconds(movie.getDuration().toSecondOfDay())).format(formatter);
+    public int getTicketsSold() {
+        return ticketsSold;
     }
 
-    public String getTitle() { return movie.getTitle(); }
-    public String getSeats() {
-        return ticketsSold + "/" + room.getSeats();
+    public LocalTime getDuration() {
+        return duration;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getSeats() {
+        return seats;
     }
 
     public boolean sellTickets(int tickets) {
-        if (ticketsSold + tickets <= room.getSeats()) {
+        if (ticketsSold + tickets <= seats) {
             ticketsSold += tickets;
             return true;
         }
