@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ui.SelectSeatsController">
+    <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
+        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../img/logo.png" />
+            <HBox.margin>
+                <Insets bottom="12.0" left="12.0" right="8.0" top="12.0" />
+            </HBox.margin>
+        </ImageView>
+        <Label fx:id="appNameLbl" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" text="Fantastic Cinema" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" HBox.hgrow="ALWAYS">
+            <GridPane.margin>
+                <Insets bottom="16.0" />
+            </GridPane.margin>
+            <HBox.margin>
+                <Insets bottom="12.0" />
+            </HBox.margin>
+        </Label>
+        <MenuBar GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
+            <menus>
+                <Menu fx:id="sellMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onSellMenuClick" text="Sell tickets" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="showingsMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onShowingsMenuClick" text="Manage showings" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="historyMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onHistoryMenuClick" text="View sales history" />
+                    </graphic>
+                </Menu>
+            </menus>
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </MenuBar>
+    </HBox>
+    <VBox VBox.vgrow="ALWAYS">
+        <Label fx:id="titleLbl" text="Sell tickets" GridPane.columnSpan="3" GridPane.rowIndex="1" VBox.vgrow="NEVER">
+            <VBox.margin>
+                <Insets bottom="12.0" />
+            </VBox.margin>
+        </Label>
+        <HBox VBox.vgrow="NEVER">
+            <children>
+              <Label text="Selected showing:">
+               <HBox.margin>
+                  <Insets bottom="6.0" />
+               </HBox.margin>
+              </Label>
+                <Label fx:id="selectedShowingLbl" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+            </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+        </HBox>
+        <HBox fx:id="roomHBox" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Line endX="100.0" startX="-100.0" strokeWidth="2.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Line>
+                      <Label alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" text="Screen" textAlignment="CENTER" VBox.vgrow="NEVER">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Selected seats:" />
+                  <HBox fx:id="selectedSeatsHBox" maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            </children>
+            <VBox.margin>
+                <Insets bottom="16.0" right="16.0" />
+            </VBox.margin>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </padding>
+        </HBox>
+          <TextField fx:id="customerTextField" alignment="BOTTOM_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="500.0" promptText="Customer name" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin>
+          </TextField>
+        <HBox alignment="BOTTOM_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+            <children>
+                <Button fx:id="sellButton" disable="true" minHeight="30.0" mnemonicParsing="false" onAction="#onSellButtonClick" text="Sell tickets" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets right="12.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="16.0" right="16.0" />
+                    </padding>
+                </Button>
+                <Button fx:id="cancelButton" minHeight="30.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="Cancel">
+                    <HBox.margin>
+                        <Insets right="12.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="16.0" right="16.0" />
+                    </padding>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets bottom="12.0" right="12.0" />
+            </VBox.margin>
+        </HBox>
+        <padding>
+            <Insets left="12.0" top="12.0" />
+        </padding>
+    </VBox>
+</VBox>

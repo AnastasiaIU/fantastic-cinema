@@ -5,127 +5,111 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="750.0"
-      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.ui.ShowingsController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ui.SellController">
     <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
         <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../img/logo.png"/>
+            <Image url="@../img/logo.png" />
             <HBox.margin>
-                <Insets bottom="12.0" left="12.0" right="8.0" top="12.0"/>
+                <Insets bottom="12.0" left="12.0" right="8.0" top="12.0" />
             </HBox.margin>
         </ImageView>
-        <Label fx:id="appNameLbl" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" text="Fantastic Cinema"
-               GridPane.columnIndex="1" GridPane.valignment="BOTTOM" HBox.hgrow="ALWAYS">
+        <Label fx:id="appNameLbl" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" text="Fantastic Cinema" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" HBox.hgrow="ALWAYS">
             <GridPane.margin>
-                <Insets bottom="16.0"/>
+                <Insets bottom="16.0" />
             </GridPane.margin>
             <HBox.margin>
-                <Insets bottom="12.0"/>
+                <Insets bottom="12.0" />
             </HBox.margin>
         </Label>
         <MenuBar GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
             <menus>
                 <Menu fx:id="sellMenu" mnemonicParsing="false">
                     <graphic>
-                        <Label onMouseClicked="#onSellMenuClick" text="Sell tickets"/>
+                        <Label onMouseClicked="#onSellMenuClick" text="Sell tickets" />
                     </graphic>
                 </Menu>
                 <Menu fx:id="showingsMenu" mnemonicParsing="false">
                     <graphic>
-                        <Label onMouseClicked="#onShowingsMenuClick" text="Manage showings"/>
+                        <Label onMouseClicked="#onShowingsMenuClick" text="Manage showings" />
                     </graphic>
                 </Menu>
                 <Menu fx:id="historyMenu" mnemonicParsing="false">
                     <graphic>
-                        <Label onMouseClicked="#onHistoryMenuClick" text="View sales history"/>
+                        <Label onMouseClicked="#onHistoryMenuClick" text="View sales history" />
                     </graphic>
                 </Menu>
             </menus>
             <GridPane.margin>
-                <Insets/>
+                <Insets />
             </GridPane.margin>
         </MenuBar>
     </HBox>
     <VBox VBox.vgrow="ALWAYS">
-        <Label fx:id="titleLbl" text="Manage showings" GridPane.columnSpan="3" GridPane.rowIndex="1" VBox.vgrow="NEVER">
+        <Label fx:id="titleLbl" text="Sell tickets" GridPane.columnSpan="3" GridPane.rowIndex="1" VBox.vgrow="NEVER">
             <VBox.margin>
-                <Insets bottom="12.0"/>
+                <Insets bottom="12.0" />
             </VBox.margin>
         </Label>
         <Label fx:id="roomLbl" text="Room 1">
             <VBox.margin>
-                <Insets bottom="6.0"/>
+                <Insets bottom="6.0" />
             </VBox.margin>
         </Label>
-        <TableView fx:id="showingsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308"
-                   maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <TableView fx:id="sellsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="startColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
-                             text="Start"/>
-                <TableColumn fx:id="endColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
-                             text="End"/>
+                <TableColumn fx:id="startColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" text="Start" />
+                <TableColumn fx:id="endColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" text="End" />
                 <TableColumn maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Title">
                     <cellValueFactory>
-                        <PropertyValueFactory property="title"/>
+                        <PropertyValueFactory property="title" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="seatsLeftColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0"
-                             resizable="false" text="Seats left"/>
+                <TableColumn fx:id="seatsLeftColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" resizable="false" text="Seats left" />
             </columns>
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
             <VBox.margin>
-                <Insets bottom="12.0" right="12.0"/>
+                <Insets bottom="12.0" right="12.0" />
             </VBox.margin>
         </TableView>
-        <Label fx:id="errorLbl" text="Cannot delete the show because tickets have already been sold." textFill="RED"
-               visible="false">
-            <VBox.margin>
-                <Insets bottom="12.0"/>
-            </VBox.margin>
-        </Label>
-        <HBox alignment="BOTTOM_LEFT" fillHeight="false" VBox.vgrow="NEVER">
-            <children>
-                <Button fx:id="addShowingButton" minHeight="30.0" mnemonicParsing="false" text="Add showing"
-                        HBox.hgrow="NEVER" onAction="#onAddButtonClick">
-                    <HBox.margin>
-                        <Insets right="12.0"/>
-                    </HBox.margin>
-                    <padding>
-                        <Insets left="16.0" right="16.0"/>
-                    </padding>
-                </Button>
-                <Button fx:id="editShowingButton" disable="true" minHeight="30.0" mnemonicParsing="false"
-                        text="Edit showing" onAction="#onEditButtonClick">
-                    <HBox.margin>
-                        <Insets right="12.0"/>
-                    </HBox.margin>
-                    <padding>
-                        <Insets left="16.0" right="16.0"/>
-                    </padding>
-                </Button>
-                <Button fx:id="deleteShowingButton" disable="true" minHeight="30.0" mnemonicParsing="false"
-                        text="Delete showing" onAction="#onDeleteButtonClick">
-                    <HBox.margin>
-                        <Insets right="12.0"/>
-                    </HBox.margin>
-                    <padding>
-                        <Insets left="16.0" right="16.0"/>
-                    </padding>
-                </Button>
-            </children>
-            <VBox.margin>
-                <Insets bottom="12.0" right="12.0"/>
-            </VBox.margin>
-        </HBox>
         <padding>
-            <Insets left="12.0" top="12.0"/>
+            <Insets left="12.0" top="12.0" />
         </padding>
     </VBox>
+   <VBox fx:id="selectedVBox" VBox.vgrow="NEVER">
+      <children>
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Label text="Selected:">
+                  <HBox.margin>
+                     <Insets bottom="12.0" right="6.0" />
+                  </HBox.margin></Label>
+               <Label fx:id="selectedLbl">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font></Label>
+            </children>
+            <VBox.margin>
+               <Insets left="16.0" top="16.0" />
+            </VBox.margin>
+         </HBox>
+             <Button fx:id="selectSeatsButton" disable="true" minHeight="30.0" mnemonicParsing="false" onAction="#onSelectSeatsButtonClick" text="Select seats(s)">
+                 <padding>
+                     <Insets left="16.0" right="16.0" />
+                 </padding>
+            <VBox.margin>
+               <Insets bottom="16.0" left="16.0" />
+            </VBox.margin>
+             </Button>
+      </children>
+      <VBox.margin>
+         <Insets bottom="12.0" left="12.0" right="12.0" />
+      </VBox.margin>
+   </VBox>
 </VBox>

@@ -45,6 +45,25 @@ public class ShowingsController extends BaseController implements Initializable 
         showings = FXCollections.observableArrayList(showingService.getAllShowings());
         showingsTableView.setItems(showings);
 
+        addSelectionListenerToTableView();
+        setCellValueFactories();
+    }
+
+    private void setCellValueFactories() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        startColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(formatter))
+        );
+        endColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
+        );
+        seatsLeftColumn.setCellValueFactory(
+                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getSeats())
+        );
+    }
+
+    private void addSelectionListenerToTableView() {
         showingsTableView.getSelectionModel().selectedIndexProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection.intValue() != -1) {
@@ -59,18 +78,6 @@ public class ShowingsController extends BaseController implements Initializable 
         );
 
         showingsTableView.getSelectionModel().clearSelection();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
-        startColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(formatter))
-        );
-        endColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
-        );
-        seatsLeftColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getSeats())
-        );
     }
 
     @FXML
@@ -110,8 +117,6 @@ public class ShowingsController extends BaseController implements Initializable 
 
     @FXML
     protected void onEditButtonClick() {
-        Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
-
         openAddEditView(false);
     }
 

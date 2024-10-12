@@ -14,7 +14,7 @@ public class Database {
     public Database() {
         // Add some users
         users.add(new User("admin", "admin", AccessLevel.MANAGEMENT));
-        users.add(new User("jane", "jane", AccessLevel.SALES));
+        users.add(new User("sell", "sell", AccessLevel.SALES));
 
         // Add some showings
         showings.add(new Showing(0, LocalDateTime.of(2024, 11, 12, 14, 0), 10, LocalTime.of(2, 30), "Joker: Folie à Deux", 72));
