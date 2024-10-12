@@ -43,14 +43,14 @@ public class LoginController implements Initializable {
 
         User user = loginService.login(username, password);
         if (user != null) {
-            // Successful login, open main-view.fxml
+            // Successful login, open welcome-view.fxml
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("welcome-view.fxml"));
                 Parent root = fxmlLoader.load();
 
                 Stage stage = (Stage)loginButton.getScene().getWindow();
                 Scene scene = new Scene(root);
-                scene.getStylesheets().add(getClass().getResource("/org/example/css/main-view.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("/org/example/css/welcome-view.css").toExternalForm());
 
                 InitializableMenu controller = fxmlLoader.getController();
                 controller.initialize(user, null);

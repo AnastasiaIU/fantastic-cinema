@@ -37,3 +37,11 @@
 #confirmButton:hover, #cancelButton:hover {
     -fx-background-color: #989898;
 }
+
+.text-field:error {
+    -fx-text-box-border: red ;
+}
+
+.date-picker:error {
+    -fx-border-color: red ;
+}

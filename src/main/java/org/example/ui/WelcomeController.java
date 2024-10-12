@@ -12,7 +12,7 @@ import org.example.model.User;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class MainController extends BaseController {
+public class WelcomeController extends BaseController {
     @FXML
     private Label welcomeLbl;
     @FXML

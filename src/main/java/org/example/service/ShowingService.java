@@ -19,4 +19,8 @@ public class ShowingService {
     public void deleteShowing(Showing selectedShowing) {
         showingDao.deleteShowing(selectedShowing);
     }
+
+    public void addUpdateShowing(Showing showing) {
+        showingDao.addUpdateShowing(showing);
+    }
 }

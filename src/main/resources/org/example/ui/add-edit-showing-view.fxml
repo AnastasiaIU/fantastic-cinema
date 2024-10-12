@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ui.AddEditShowingController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ui.AddEditShowingController">
     <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
         <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../img/logo.png" />
@@ -55,20 +55,18 @@
                 <Insets bottom="6.0" />
             </VBox.margin>
         </Label>
-        <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0" promptText="Title">
-            <VBox.margin>
-                <Insets bottom="16.0" />
-            </VBox.margin>
-        </TextField>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: ">
+        <HBox VBox.vgrow="NEVER">
+            <children>
+                <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0" promptText="Title">
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin></TextField>
+                <Label fx:id="titlePromptLbl" prefHeight="25.0" text="Title cannot be empty." textFill="RED" visible="false" HBox.hgrow="ALWAYS" />
+            </children>
          <VBox.margin>
-            <Insets bottom="6.0" />
-         </VBox.margin></Label>
-        <TextField fx:id="durationTextField" maxWidth="100.0" prefWidth="100.0" promptText="HH:MM">
-            <VBox.margin>
-                <Insets bottom="16.0" />
-            </VBox.margin>
-        </TextField>
+            <Insets bottom="16.0" />
+         </VBox.margin>
+        </HBox>
         <Label text="Start date and time:">
             <VBox.margin>
                 <Insets bottom="6.0" />
@@ -76,23 +74,51 @@
         </Label>
         <HBox maxWidth="1.7976931348623157E308">
             <children>
-                <Label fx:id="date" text="DD/MM/YYYY">
+                <DatePicker fx:id="startDatePicker" promptText="DD-MM-YYYY">
                     <HBox.margin>
                         <Insets right="16.0" />
                     </HBox.margin>
-                </Label>
-                <Label fx:id="time" text="HH:MM PM" />
+                </DatePicker>
+                <Spinner fx:id="hoursSpinner" prefWidth="60.0" promptText="HH">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </Spinner>
+                <Spinner fx:id="minutesSpinner" prefWidth="60.0" promptText="MM">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </Spinner>
+                <Label fx:id="startDateTimePromptLbl" prefHeight="25.0" textFill="RED" HBox.hgrow="ALWAYS" />
             </children>
             <VBox.margin>
                 <Insets bottom="16.0" />
             </VBox.margin>
         </HBox>
-        <Label text="End time and date:">
+        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: ">
             <VBox.margin>
                 <Insets bottom="6.0" />
             </VBox.margin>
         </Label>
-        <Label text="Label" />
+        <HBox VBox.vgrow="NEVER">
+            <children>
+                <TextField fx:id="durationTextField" maxWidth="100.0" prefWidth="100.0" promptText="HH:MM">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </TextField>
+                <Label fx:id="durationPromptLbl" prefHeight="25.0" text="Wrong input. Please, follow the HH:MM format." textFill="RED" visible="false" HBox.hgrow="ALWAYS" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </HBox>
+        <Label text="End date and time:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <Label fx:id="endDateTimeLbl" text="DD-MM-YYYY HH:MM" />
         <HBox alignment="BOTTOM_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
             <children>
                 <Button fx:id="confirmButton" minHeight="30.0" mnemonicParsing="false" onAction="#onConfirmButtonClick" HBox.hgrow="NEVER">

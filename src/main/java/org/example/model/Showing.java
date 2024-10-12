@@ -4,22 +4,28 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Showing {
-    private LocalDateTime startTime;
+    private int id;
+    private LocalDateTime startDateTime;
     private int ticketsSold;
     private LocalTime duration;
     private String title;
     private int seats;
 
-    public Showing(LocalDateTime startTime, int ticketsSold, LocalTime duration, String title, int seats) {
-        this.startTime = startTime;
+    public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, int seats) {
+        this.id = id;
+        this.startDateTime = startDateTime;
         this.ticketsSold = ticketsSold;
         this.duration = duration;
         this.title = title;
         this.seats = seats;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public  void setId(int id) {
+        this.id = id;
+    }
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
     public void setTicketsSold(int ticketsSold) {
@@ -38,8 +44,12 @@ public class Showing {
         this.seats = seats;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public int getId() {
+        return id;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
     }
 
     public int getTicketsSold() {

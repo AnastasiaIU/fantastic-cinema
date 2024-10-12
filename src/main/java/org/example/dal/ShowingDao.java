@@ -20,4 +20,8 @@ public class ShowingDao {
     public void deleteShowing(Showing selectedShowing) {
         database.deleteShowing(selectedShowing);
     }
+
+    public void addUpdateShowing(Showing showing) {
+        database.addUpdateShowing(showing);
+    }
 }
