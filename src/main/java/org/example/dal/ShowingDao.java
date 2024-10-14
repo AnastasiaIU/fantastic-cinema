@@ -14,7 +14,7 @@ public class ShowingDao {
     }
 
     public List<Showing> getAllShowings() {
-        return database.getShowings();
+        return database.getAllShowings();
     }
 
     public void deleteShowing(Showing selectedShowing) {
@@ -23,5 +23,13 @@ public class ShowingDao {
 
     public void addUpdateShowing(Showing showing) {
         database.addUpdateShowing(showing);
+    }
+
+    public List<Showing> getAllUpcomingShowings() {
+        return database.getAllUpcomingShowings();
+    }
+
+    public void sellTicket(int showingId, int[] seat) {
+        database.sellTicket(showingId, seat);
     }
 }

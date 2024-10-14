@@ -21,7 +21,7 @@
 }
 
 #sellMenu:hover, #historyMenu:hover {
-    -fx-background-color: #808080;
+    -fx-opacity: 0.7;
 }
 
 #confirmButton {
@@ -35,7 +35,7 @@
 }
 
 #confirmButton:hover, #cancelButton:hover {
-    -fx-background-color: #989898;
+    -fx-opacity: 0.7;
 }
 
 .text-field:error {

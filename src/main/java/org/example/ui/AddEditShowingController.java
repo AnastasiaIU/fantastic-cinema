@@ -99,6 +99,17 @@ public class AddEditShowingController extends BaseController {
         LocalTime duration = tryParseLocalTime(durationTextField.getText());
         LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
 
+        displayErrors(title, startDate, duration);
+
+        if (!title.isEmpty() && startDate != null && duration != null) {
+            Showing showing = getShowing(startDate, duration, title);
+
+            showingService.addUpdateShowing(showing);
+            openShowingsView();
+        }
+    }
+
+    private void displayErrors(String title, LocalDate startDate, LocalTime duration) {
         if (title.isEmpty()) {
             showTitleError(true);
         }
@@ -109,13 +120,6 @@ public class AddEditShowingController extends BaseController {
 
         if (duration == null) {
             showDurationError(true);
-        }
-
-        if (!title.isEmpty() && startDate != null && duration != null) {
-            Showing showing = getShowing(startDate, duration, title);
-
-            showingService.addUpdateShowing(showing);
-            openShowingsView();
         }
     }
 
@@ -129,7 +133,7 @@ public class AddEditShowingController extends BaseController {
                     0,
                     duration,
                     title,
-                    72
+                    new boolean[6][12]
             );
         } else {
             showing = selectedShowing;

@@ -9,15 +9,15 @@ public class Showing {
     private int ticketsSold;
     private LocalTime duration;
     private String title;
-    private int seats;
+    private boolean[][] reservedSeats;
 
-    public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, int seats) {
+    public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, boolean[][] reservedSeats) {
         this.id = id;
         this.startDateTime = startDateTime;
         this.ticketsSold = ticketsSold;
         this.duration = duration;
         this.title = title;
-        this.seats = seats;
+        this.reservedSeats = reservedSeats;
     }
 
     public  void setId(int id) {
@@ -28,20 +28,12 @@ public class Showing {
         this.startDateTime = startDateTime;
     }
 
-    public void setTicketsSold(int ticketsSold) {
-        this.ticketsSold = ticketsSold;
-    }
-
     public void setDuration(LocalTime duration) {
         this.duration = duration;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setSeats(int seats) {
-        this.seats = seats;
     }
 
     public int getId() {
@@ -64,19 +56,20 @@ public class Showing {
         return title;
     }
 
-    public int getSeats() {
-        return seats;
+    public boolean[][] getReservedSeats() {
+        return reservedSeats;
     }
 
-    public boolean sellTickets(int tickets) {
-        if (ticketsSold + tickets <= seats) {
-            ticketsSold += tickets;
-            return true;
-        }
-        return false;
+    public void sellTicket(int[] seat) {
+        ticketsSold++;
+        reservedSeats[seat[0]][seat[1]] = true;
     }
 
     public boolean isTicketsSold() {
         return ticketsSold > 0;
+    }
+
+    public int getNumberOfSeats() {
+        return reservedSeats.length * reservedSeats[0].length;
     }
 }

@@ -59,7 +59,7 @@ public class ShowingsController extends BaseController implements Initializable 
                 c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
         );
         seatsLeftColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getSeats())
+                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getNumberOfSeats())
         );
     }
 

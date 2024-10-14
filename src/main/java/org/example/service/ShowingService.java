@@ -23,4 +23,12 @@ public class ShowingService {
     public void addUpdateShowing(Showing showing) {
         showingDao.addUpdateShowing(showing);
     }
+
+    public List<Showing> getAllUpcomingShowings() {
+        return showingDao.getAllUpcomingShowings();
+    }
+
+    public void sellTicket(int showingId, int[] seat) {
+        showingDao.sellTicket(showingId, seat);
+    }
 }

@@ -21,7 +21,7 @@
 }
 
 #showingsMenu:hover, #historyMenu:hover {
-    -fx-background-color: #808080;
+    -fx-opacity: 0.7;
 }
 
 #roomLbl {
@@ -35,7 +35,7 @@
 }
 
 #selectSeatsButton:hover {
-    -fx-background-color: #989898;
+    -fx-opacity: 0.7;
 }
 
 #selectedVBox {

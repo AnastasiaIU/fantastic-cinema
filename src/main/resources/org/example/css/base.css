@@ -23,5 +23,5 @@
 }
 
 .menu:hover {
-    -fx-background-color: #808080;
+    -fx-opacity: 0.7;
 }

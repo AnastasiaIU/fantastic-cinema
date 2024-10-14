@@ -21,7 +21,7 @@
 }
 
 #showingsMenu:hover, #historyMenu:hover {
-    -fx-background-color: #808080;
+    -fx-opacity: 0.7;
 }
 
 #sellButton {
@@ -35,13 +35,47 @@
 }
 
 #sellButton:hover, #cancelButton:hover {
-    -fx-background-color: #989898;
+    -fx-opacity: 0.7;
 }
 
 #roomHBox {
     -fx-background-color: #FFFFFF;
 }
 
-#selectedSeatsHBox {
+#selectedSeatsListView {
     -fx-border-color: #797979;
+}
+
+.row-name {
+    -fx-padding: 0 16 0 0;
+    -fx-pref-height: 50;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.seat-button {
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
+    -fx-min-width: 40;
+    -fx-pref-width: 40;
+    -fx-max-width: 40;
+    -fx-background-insets: 5;
+    -fx-text-fill: white;
+}
+
+.seat-taken, .seat-taken:disabled {
+    -fx-background-color: #FF0000;
+    -fx-opacity: 1;
+}
+
+.seat-free {
+    -fx-background-color: #5D5E5E;
+}
+
+.seat-chosen {
+    -fx-background-color: #00FF00;
+}
+
+.seat-button:hover {
+    -fx-opacity: 0.7;
 }

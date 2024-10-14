@@ -24,24 +24,27 @@ public class SellController extends BaseController implements Initializable {
     private ObservableList<Showing> showings;
 
     @FXML
+    private Label selectedLbl;
+    @FXML
     private TableView<Showing> sellsTableView;
     @FXML
     private Button selectSeatsButton;
     @FXML
-    TableColumn<Showing, String> seatsLeftColumn;
+    private TableColumn<Showing, String> seatsLeftColumn;
     @FXML
-    TableColumn<Showing, String> startColumn;
+    private TableColumn<Showing, String> startColumn;
     @FXML
-    TableColumn<Showing, String> endColumn;
+    private TableColumn<Showing, String> endColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showingService = new ShowingService();
-        showings = FXCollections.observableArrayList(showingService.getAllShowings());
+        showings = FXCollections.observableArrayList(showingService.getAllUpcomingShowings());
         sellsTableView.setItems(showings);
 
         addSelectionListenerToTableView();
         setCellValueFactories();
+        sellsTableView.getSortOrder().add(startColumn);
     }
 
     private void setCellValueFactories() {
@@ -54,7 +57,7 @@ public class SellController extends BaseController implements Initializable {
                 c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
         );
         seatsLeftColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getSeats())
+                c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getNumberOfSeats())
         );
     }
 
@@ -63,6 +66,7 @@ public class SellController extends BaseController implements Initializable {
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection.intValue() != -1) {
                         selectSeatsButton.setDisable(false);
+                        setSelectedShowingLabel();
                     } else {
                         selectSeatsButton.setDisable(true);
                     }
@@ -70,6 +74,13 @@ public class SellController extends BaseController implements Initializable {
         );
 
         sellsTableView.getSelectionModel().clearSelection();
+    }
+
+    private void setSelectedShowingLabel() {
+        Showing selectedShowing = sellsTableView.getSelectionModel().getSelectedItem();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String date = formatter.format(selectedShowing.getStartDateTime());
+        selectedLbl.setText(date + " " + selectedShowing.getTitle());
     }
 
     @FXML
