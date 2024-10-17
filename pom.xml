@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
+  <groupId>nl.inholland</groupId>
   <artifactId>FinalAssignment</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>FinalAssignment</name>
@@ -59,7 +59,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.example.finalassignment/org.example.MainApplication</mainClass>
+              <mainClass>nl.inholland.finalassignment/nl.inholland.MainApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

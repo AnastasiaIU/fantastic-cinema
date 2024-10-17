@@ -1,0 +1,20 @@
+@import url("main-view.css");
+
+.root {
+    -fx-pref-height: 350;
+    -fx-pref-width: 500;
+    -fx-spacing: 6;
+    -fx-padding: 20;
+}
+
+.login-label {
+    -fx-padding: 15 0 20 0;
+}
+
+#usernameTextField, #passwordField {
+    -fx-max-width: 250;
+}
+
+#loginButton {
+    -fx-padding: 5 25 5 25;
+}

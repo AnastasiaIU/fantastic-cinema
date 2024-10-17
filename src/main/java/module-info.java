@@ -1,11 +1,11 @@
-module org.example.ui {
+module nl.inholland.view {
     requires javafx.fxml;
     requires javafx.controls;
 
 
-    opens org.example.ui to javafx.fxml;
-    opens org.example.model to javafx.base;
-    exports org.example.ui;
-    exports org.example;
-    opens org.example to javafx.fxml;
+    opens nl.inholland.controller to javafx.fxml;
+    opens nl.inholland.model to javafx.base;
+    exports nl.inholland.controller;
+    exports nl.inholland;
+    opens nl.inholland to javafx.fxml;
 }

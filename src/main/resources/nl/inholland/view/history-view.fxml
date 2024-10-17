@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.inholland.controller.HistoryController">
+    <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
+        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@img/logo.png" />
+            <HBox.margin>
+                <Insets bottom="12.0" left="12.0" right="8.0" top="12.0" />
+            </HBox.margin>
+        </ImageView>
+        <Label fx:id="appNameLbl" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" text="Fantastic Cinema" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" HBox.hgrow="ALWAYS">
+            <GridPane.margin>
+                <Insets bottom="16.0" />
+            </GridPane.margin>
+            <HBox.margin>
+                <Insets bottom="12.0" />
+            </HBox.margin>
+        </Label>
+        <MenuBar GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
+            <menus>
+                <Menu fx:id="sellMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onSellMenuClick" text="Sell tickets" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="showingsMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onShowingsMenuClick" text="Manage showings" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="historyMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onHistoryMenuClick" text="View sales history" />
+                    </graphic>
+                </Menu>
+            </menus>
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </MenuBar>
+    </HBox>
+    <VBox VBox.vgrow="ALWAYS">
+        <Label fx:id="titleLbl" text="View sales history" GridPane.columnSpan="3" GridPane.rowIndex="1" VBox.vgrow="NEVER">
+            <VBox.margin>
+                <Insets bottom="12.0" />
+            </VBox.margin>
+        </Label>
+        <Label fx:id="roomLbl" text="Room 1">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <TableView fx:id="historyTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="dateTimeColumn" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" resizable="false" text="Date/time" />
+                <TableColumn maxWidth="130.0" minWidth="130.0" prefWidth="130.0" resizable="false" text="Number of tickets">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="ticketsSold" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" text="Customer">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="ticketsSold" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Showing">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="showing" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <VBox.margin>
+                <Insets bottom="12.0" right="12.0" />
+            </VBox.margin>
+        </TableView>
+        <padding>
+            <Insets left="12.0" top="12.0" />
+        </padding>
+    </VBox>
+</VBox>

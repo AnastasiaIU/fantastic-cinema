@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.inholland.controller.AddEditShowingController">
+    <HBox fx:id="header" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308">
+        <ImageView fx:id="logo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@img/logo.png" />
+            <HBox.margin>
+                <Insets bottom="12.0" left="12.0" right="8.0" top="12.0" />
+            </HBox.margin>
+        </ImageView>
+        <Label fx:id="appNameLbl" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" text="Fantastic Cinema" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" HBox.hgrow="ALWAYS">
+            <GridPane.margin>
+                <Insets bottom="16.0" />
+            </GridPane.margin>
+            <HBox.margin>
+                <Insets bottom="12.0" />
+            </HBox.margin>
+        </Label>
+        <MenuBar GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
+            <menus>
+                <Menu fx:id="sellMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onSellMenuClick" text="Sell tickets" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="showingsMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onShowingsMenuClick" text="Manage showings" />
+                    </graphic>
+                </Menu>
+                <Menu fx:id="historyMenu" mnemonicParsing="false">
+                    <graphic>
+                        <Label onMouseClicked="#onHistoryMenuClick" text="View sales history" />
+                    </graphic>
+                </Menu>
+            </menus>
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+        </MenuBar>
+    </HBox>
+    <VBox VBox.vgrow="ALWAYS">
+        <Label fx:id="titleLbl" GridPane.columnSpan="3" GridPane.rowIndex="1" VBox.vgrow="NEVER">
+            <VBox.margin>
+                <Insets bottom="12.0" />
+            </VBox.margin>
+        </Label>
+        <Label text="Title:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <HBox VBox.vgrow="NEVER">
+            <children>
+                <TextField fx:id="titleTextField" maxWidth="300.0" prefWidth="300.0" promptText="Title">
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin></TextField>
+                <Label fx:id="titlePromptLbl" prefHeight="25.0" text="Title cannot be empty." textFill="RED" visible="false" HBox.hgrow="ALWAYS" />
+            </children>
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin>
+        </HBox>
+        <Label text="Start date and time:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <HBox maxWidth="1.7976931348623157E308">
+            <children>
+                <DatePicker fx:id="startDatePicker" promptText="DD-MM-YYYY">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </DatePicker>
+                <Spinner fx:id="hoursSpinner" prefWidth="60.0" promptText="HH">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </Spinner>
+                <Spinner fx:id="minutesSpinner" prefWidth="60.0" promptText="MM">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </Spinner>
+                <Label fx:id="startDateTimePromptLbl" prefHeight="25.0" textFill="RED" HBox.hgrow="ALWAYS" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </HBox>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Duration: ">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <HBox VBox.vgrow="NEVER">
+            <children>
+                <TextField fx:id="durationTextField" maxWidth="100.0" prefWidth="100.0" promptText="HH:MM">
+                    <HBox.margin>
+                        <Insets right="16.0" />
+                    </HBox.margin>
+                </TextField>
+                <Label fx:id="durationPromptLbl" prefHeight="25.0" text="Wrong input. Please, follow the HH:MM format." textFill="RED" visible="false" HBox.hgrow="ALWAYS" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="16.0" />
+            </VBox.margin>
+        </HBox>
+        <Label text="End date and time:">
+            <VBox.margin>
+                <Insets bottom="6.0" />
+            </VBox.margin>
+        </Label>
+        <Label fx:id="endDateTimeLbl" text="DD-MM-YYYY HH:MM" />
+        <HBox alignment="BOTTOM_LEFT" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+            <children>
+                <Button fx:id="confirmButton" minHeight="30.0" mnemonicParsing="false" onAction="#onConfirmButtonClick" HBox.hgrow="NEVER">
+                    <HBox.margin>
+                        <Insets right="12.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="16.0" right="16.0" />
+                    </padding>
+                </Button>
+                <Button fx:id="cancelButton" minHeight="30.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="Cancel">
+                    <HBox.margin>
+                        <Insets right="12.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="16.0" right="16.0" />
+                    </padding>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets bottom="12.0" right="12.0" />
+            </VBox.margin>
+        </HBox>
+        <padding>
+            <Insets left="12.0" top="12.0" />
+        </padding>
+    </VBox>
+</VBox>

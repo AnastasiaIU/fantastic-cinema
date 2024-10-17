@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Label styleClass="title-label, login-label" text="Login" />
+    <Label text="Username:" />
+    <TextField fx:id="usernameTextField"/>
+    <Label text="Password:" />
+    <PasswordField fx:id="passwordField"/>
+    <Label fx:id="promptLabel" styleClass="prompt-label" text="Wrong username or password. Please, try again." visible="false" />
+    <Button fx:id="loginButton" styleClass="blue-button" mnemonicParsing="false" text="Login" />
+</VBox>

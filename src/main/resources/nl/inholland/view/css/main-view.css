@@ -1,0 +1,46 @@
+.root {
+    -fx-background-color: #E5E5E5;
+}
+
+#header {
+    -fx-background-color: #000000;
+}
+
+#appNameLbl {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.menu-bar {
+    -fx-background-color: transparent;
+}
+
+.menu .label
+{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.menu:hover {
+    -fx-opacity: 0.7;
+}
+
+.prompt-label {
+    -fx-text-fill: red;
+}
+
+.blue-button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+}
+
+.blue-button:focused {
+    -fx-border-color: darkblue;
+}
+
+.title-label {
+    -fx-text-fill: #969696;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}

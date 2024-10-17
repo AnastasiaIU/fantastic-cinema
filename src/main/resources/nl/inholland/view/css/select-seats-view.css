@@ -1,0 +1,81 @@
+@import url("main-view.css");
+
+#titleLbl {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #767676;
+}
+
+#showingsMenu, #historyMenu {
+    -fx-background-color: #5D5E5E;
+}
+
+#sellMenu, #sellMenu:disabled {
+    -fx-background-color: #E5E5E5;
+    -fx-opacity: 1;
+}
+
+#sellMenu .label, #sellMenu:disabled .label {
+    -fx-text-fill: #5D5E5E;
+    -fx-opacity: 1;
+}
+
+#showingsMenu:hover, #historyMenu:hover {
+    -fx-opacity: 0.7;
+}
+
+#sellButton {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+}
+
+#cancelButton {
+    -fx-background-color: #797979;
+    -fx-text-fill: white;
+}
+
+#sellButton:hover, #cancelButton:hover {
+    -fx-opacity: 0.7;
+}
+
+#roomHBox {
+    -fx-background-color: #FFFFFF;
+}
+
+#selectedSeatsListView {
+    -fx-border-color: #797979;
+}
+
+.row-name {
+    -fx-padding: 0 16 0 0;
+    -fx-pref-height: 50;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.seat-button {
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
+    -fx-min-width: 40;
+    -fx-pref-width: 40;
+    -fx-max-width: 40;
+    -fx-background-insets: 5;
+    -fx-text-fill: white;
+}
+
+.seat-taken, .seat-taken:disabled {
+    -fx-background-color: #FF0000;
+    -fx-opacity: 1;
+}
+
+.seat-free {
+    -fx-background-color: #5D5E5E;
+}
+
+.seat-chosen {
+    -fx-background-color: #00FF00;
+}
+
+.seat-button:hover {
+    -fx-opacity: 0.7;
+}
