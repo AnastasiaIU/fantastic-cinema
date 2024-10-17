@@ -1,4 +1,4 @@
-@import url("main-view.css");
+@import url("base.css");
 
 .root {
     -fx-pref-height: 350;
@@ -17,4 +17,8 @@
 
 #loginButton {
     -fx-padding: 5 25 5 25;
+}
+
+#promptLabel {
+    -fx-padding: 10 0 10 0;
 }

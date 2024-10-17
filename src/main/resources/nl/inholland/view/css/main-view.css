@@ -1,46 +1,68 @@
-.root {
-    -fx-background-color: #E5E5E5;
+@import url("base.css");
+
+#root {
+    -fx-pref-width: 775;
+    -fx-pref-height: 500;
 }
 
-#header {
+.header {
     -fx-background-color: #000000;
+    -fx-alignment: bottom-left;
+    -fx-padding: 12 12 0 12;
 }
 
-#appNameLbl {
+.app-name-label {
     -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-alignment: baseline-left;
+    -fx-padding: 0 0 0 12;
 }
 
-.menu-bar {
-    -fx-background-color: transparent;
+.menu-button {
+    -fx-background-radius: 0;
+    -fx-focus-traversable: false;
+    -fx-padding: 5 25 5 25;
+    -fx-background-insets: 0;
 }
 
-.menu .label
-{
-    -fx-background-color: transparent;
+.menu-button:active, .menu-button:disabled:active {
+    -fx-background-color: #E5E5E5;
+    -fx-text-fill: #5D5E5E;
+    -fx-opacity: 1;
+}
+
+.menu-button:inactive {
+    -fx-background-color: #5D5E5E;
     -fx-text-fill: white;
 }
 
-.menu:hover {
+.menu-button:hover {
     -fx-opacity: 0.7;
 }
 
-.prompt-label {
-    -fx-text-fill: red;
+.welcome-root {
+    -fx-padding: 12;
+    -fx-spacing: 6;
 }
 
-.blue-button {
-    -fx-background-color: #0078D7;
-    -fx-text-fill: white;
-}
-
-.blue-button:focused {
-    -fx-border-color: darkblue;
-}
-
-.title-label {
-    -fx-text-fill: #969696;
+.room-label {
+    -fx-font-size: 16;
     -fx-font-weight: bold;
-    -fx-font-size: 24;
+    -fx-padding: 0 0 6 0;
+}
+
+.sells-table-view-root {
+    -fx-padding: 12;
+}
+
+.selected-seats-root {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 12;
+}
+
+#selectedLabel {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 12 6;
 }

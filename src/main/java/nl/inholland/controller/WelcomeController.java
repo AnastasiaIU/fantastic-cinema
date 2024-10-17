@@ -3,50 +3,56 @@ package nl.inholland.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.util.Duration;
 import nl.inholland.model.AccessLevel;
 import nl.inholland.model.User;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
-public class WelcomeController extends BaseController {
+public class WelcomeController implements Initializable {
+    private final User currentUser;
+
     @FXML
-    private Label welcomeLbl;
+    private Label welcomeLabel;
     @FXML
-    private Label loggedUserLbl;
+    private Label loggedUserLabel;
     @FXML
-    private Label currentDateLbl;
+    private Label currentDateLabel;
+
+    public WelcomeController(User currentUser) {
+        this.currentUser = currentUser;
+    }
 
     @Override
-    public void initialize(User currentUser, Menu clickedMenu) {
-        this.currentUser = currentUser;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         updateLabels();
-        setMenu(clickedMenu);
     }
 
     // Method to update labels with user data and current date
     private void updateLabels() {
         // Update welcome label
-        welcomeLbl.setText("Welcome " + capitalizeString(currentUser.getUsername()));
+        welcomeLabel.setText("Welcome " + capitalizeString(currentUser.getUsername()));
 
         // Update logged user label
         String role = (currentUser.getAccessLevel() == AccessLevel.MANAGEMENT) ? "manager" : "sales";
-        loggedUserLbl.setText("You are logged in as " + role);
+        loggedUserLabel.setText("You are logged in as " + role);
 
         // DateTimeFormatter for the date and time format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
         // Set the initial date and time to display it without a delay
         String initialFormattedDateTime = LocalDateTime.now().format(formatter);
-        currentDateLbl.setText("The current date and time is " + initialFormattedDateTime);
+        currentDateLabel.setText("The current date and time is " + initialFormattedDateTime);
 
         // Create a Timeline to update the current time every second
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             String formattedDateTime = LocalDateTime.now().format(formatter);
-            currentDateLbl.setText("The current date and time is " + formattedDateTime);
+            currentDateLabel.setText("The current date and time is " + formattedDateTime);
         }));
 
         // Set the timeline to run indefinitely

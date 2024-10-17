@@ -21,7 +21,7 @@ public class MainApplication extends Application {
         database = loadDatabase();
 
         // Load the FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/nl/inholland/view/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/login-view.fxml"));
         fxmlLoader.setController(new LoginController(database));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/nl/inholland/view/css/login-view.css")).toExternalForm());

@@ -4,25 +4,29 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import nl.inholland.Database;
 import nl.inholland.model.Selling;
 import nl.inholland.model.Showing;
-import nl.inholland.model.User;
-import nl.inholland.service.SellingService;
-import nl.inholland.service.ShowingService;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class SelectSeatsController extends BaseController {
-    private ShowingService showingService;
-    private SellingService sellingService;
+public class SelectSeatsController implements Initializable {
+    // Reference to the shared Database instance
+    private final Database database;
+
+    private final VBox root;
+
     private Showing selectedShowing;
     private ObservableList<int[]> chosenSeats;
 
@@ -37,14 +41,14 @@ public class SelectSeatsController extends BaseController {
     @FXML
     private TextField customerTextField;
 
-    public void initialize(User currentUser, Menu clickedMenu, Showing selectedShowing) {
-        super.initialize(currentUser, clickedMenu);
-
-        showingService = new ShowingService();
-        sellingService = new SellingService();
-
+    public SelectSeatsController(Database database, Showing selectedShowing, VBox root) {
+        this.database = database;
         this.selectedShowing = selectedShowing;
+        this.root = root;
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         chosenSeats = FXCollections.observableArrayList();
         selectedSeatsListView.setItems(chosenSeats);
         setCellValueFactories();
@@ -87,12 +91,12 @@ public class SelectSeatsController extends BaseController {
         LocalDateTime now = LocalDateTime.now();
         int ticketsSold = chosenSeats.size();
         String showing = getSelectedShowing();
-        //Selling selling = new Selling(-1, now, ticketsSold, showing, customerName);
+        Selling selling = new Selling(-1, now, ticketsSold, showing, customerName, chosenSeats);
 
-        //sellingService.addSelling(selling);
+        database.addSelling(selling);
 
         for (int[] chosenSeat : chosenSeats) {
-            showingService.sellTicket(selectedShowing.getId(), chosenSeat);
+            database.sellTicket(selectedShowing.getId(), chosenSeat);
         }
 
         openSellView();
@@ -105,18 +109,13 @@ public class SelectSeatsController extends BaseController {
 
     private void openSellView() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sell-view.fxml"));
-            Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/sell-view.fxml"));
+            fxmlLoader.setController(new SellController(database, root));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            Stage stage = (Stage) sellButton.getScene().getWindow();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/nl/inholland/view/css/sell-view.css").toExternalForm());
-
-            InitializableMenu controller = fxmlLoader.getController();
-            controller.initialize(currentUser, showingsMenu);
-
-            stage.setScene(scene);
-            stage.show();
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
             e.printStackTrace();
         }

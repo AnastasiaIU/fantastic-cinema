@@ -6,25 +6,27 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import nl.inholland.Database;
 import nl.inholland.model.Showing;
-import nl.inholland.service.ShowingService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class SellController extends BaseController implements Initializable {
-    private ShowingService showingService;
+public class SellController implements Initializable {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-    private ObservableList<Showing> showings;
+    // Reference to the shared Database instance
+    private final Database database;
+
+    private final VBox root;
 
     @FXML
-    private Label selectedLbl;
+    private Label selectedLabel;
     @FXML
     private TableView<Showing> sellsTableView;
     @FXML
@@ -36,20 +38,26 @@ public class SellController extends BaseController implements Initializable {
     @FXML
     private TableColumn<Showing, String> endColumn;
 
+    public SellController(Database database, VBox root) {
+        this.database = database;
+        this.root = root;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showingService = new ShowingService();
-        showings = FXCollections.observableArrayList(showingService.getAllUpcomingShowings());
+        ObservableList<Showing> showings = FXCollections.observableArrayList(database.getAllUpcomingShowings());
         sellsTableView.setItems(showings);
 
         addSelectionListenerToTableView();
         setCellValueFactories();
         sellsTableView.getSortOrder().add(startColumn);
+
+        selectSeatsButton.setOnAction(event -> {
+            showSelectSeatsView();
+        });
     }
 
     private void setCellValueFactories() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
         startColumn.setCellValueFactory(
                 c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(formatter))
         );
@@ -73,39 +81,29 @@ public class SellController extends BaseController implements Initializable {
                 }
         );
 
+        // Clear selection in the initial state
         sellsTableView.getSelectionModel().clearSelection();
     }
 
     private void setSelectedShowingLabel() {
         Showing selectedShowing = sellsTableView.getSelectionModel().getSelectedItem();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String date = formatter.format(selectedShowing.getStartDateTime());
-        selectedLbl.setText(date + " " + selectedShowing.getTitle());
+        selectedLabel.setText(date + " " + selectedShowing.getTitle());
     }
 
-    @FXML
-    protected void onSelectSeatsButtonClick() {
-        openSelectSeatsView();
-    }
-
-    private void openSelectSeatsView() {
+    private void showSelectSeatsView() {
         try {
             Showing selectedShowing = sellsTableView.getSelectionModel().getSelectedItem();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("select-seats-view.fxml"));
-            Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/select-seats-view.fxml"));
+            fxmlLoader.setController(new SelectSeatsController(database, selectedShowing, root));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            Stage stage = (Stage)sellsTableView.getScene().getWindow();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/nl/inholland/view/css/select-seats-view.css").toExternalForm());
-
-            SelectSeatsController controller = fxmlLoader.getController();
-            controller.initialize(currentUser, showingsMenu, selectedShowing);
-
-            stage.setScene(scene);
-            stage.show();
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

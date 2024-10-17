@@ -1,80 +1,104 @@
 package nl.inholland.controller;
 
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import nl.inholland.Database;
 import nl.inholland.model.AccessLevel;
 import nl.inholland.model.User;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class MainController {
-    @FXML
-    private Menu sellMenu;
-    @FXML
-    private Menu showingsMenu;
-    @FXML
-    private Menu historyMenu;
-    @FXML
-    private Label appNameLbl;
+public class MainController implements Initializable {
+    // Reference to the shared Database instance
+    private final Database database;
 
-    private User currentUser;
-    private Menu clickedMenu;
+    private final User currentUser;
 
-    protected void setMenu(Menu clickedMenu) {
-        // Set the menu based on the user's access level
-        if (currentUser.getAccessLevel() == AccessLevel.MANAGEMENT) {
-            sellMenu.setDisable(true);
-        } else {
-            showingsMenu.setDisable(true);
-            historyMenu.setDisable(true);
-        }
+    private final PseudoClass activeClass = PseudoClass.getPseudoClass("active");
+    private final PseudoClass inactiveClass = PseudoClass.getPseudoClass("inactive");
 
-        if (clickedMenu != null) {
-            switch (clickedMenu.getId()) {
-                case "sellMenu":
-                    sellMenu.setDisable(true);
-                    break;
-                case "showingsMenu":
-                    showingsMenu.setDisable(true);
-                    break;
-                case "historyMenu":
-                    historyMenu.setDisable(true);
-                    break;
-            }
-        }
+    @FXML
+    private VBox root;
+    @FXML
+    private Button sellMenuButton;
+    @FXML
+    private Button showingsMenuButton;
+    @FXML
+    private Button historyMenuButton;
+    @FXML
+    private HBox header;
+
+    public MainController(Database database, User currentUser) {
+        this.database = database;
+        this.currentUser = currentUser;
     }
 
-    protected void loadScene(String fxmlName, Object controller, String cssName, Menu clickedMenu) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setMenuBasedOnAccess();
+        setMenuBasedOnClick(null);
+
+        sellMenuButton.setOnAction(event -> {
+            loadScene("/nl/inholland/view/sell-view.fxml", new SellController(database, root));
+            setMenuBasedOnClick(sellMenuButton);
+        });
+
+        showingsMenuButton.setOnAction(event -> {
+            //loadScene("/nl/inholland/view/showings-view.fxml", "/nl/inholland/view/css/showings-view.css", new ShowingsController());
+            setMenuBasedOnClick(showingsMenuButton);
+        });
+
+        historyMenuButton.setOnAction(event -> {
+            //loadScene("/nl/inholland/view/history-view.fxml", "/nl/inholland/view/css/history-view.css", new HistoryController());
+            setMenuBasedOnClick(historyMenuButton);
+        });
+
+        loadScene("/nl/inholland/view/welcome-view.fxml", new WelcomeController(currentUser));
+    }
+
+    protected void loadScene(String fxmlName, Object controller) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlName));
             fxmlLoader.setController(controller);
             Scene scene = new Scene(fxmlLoader.load());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssName)).toExternalForm());
 
-            //if (layout.getChildren().size() > 1)
-            //    layout.getChildren().remove(1);
-            //layout.getChildren().add(scene.getRoot());
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    @FXML
-    protected void onSellMenuClick() {
-        //onMenuClick("sell-view.fxml", "/nl/inholland/view/css/sell-view.css", sellMenu);
+    protected void setMenuBasedOnAccess() {
+        // Set the menu based on the user's access level
+        if (currentUser.getAccessLevel() == AccessLevel.MANAGEMENT) {
+            Objects.requireNonNull(sellMenuButton).setDisable(true);
+        } else {
+            Objects.requireNonNull(showingsMenuButton).setDisable(true);
+            Objects.requireNonNull(historyMenuButton).setDisable(true);
+        }
     }
 
-    @FXML
-    protected void onShowingsMenuClick() {
-        //onMenuClick("showings-view.fxml", "/nl/inholland/view/css/showings-view.css", showingsMenu);
-    }
+    protected void setMenuBasedOnClick(Button clickedMenu) {
+        for (Node node : header.getChildren()) {
+            if (node instanceof Button) {
+                node.setDisable(node == clickedMenu);
+                node.pseudoClassStateChanged(activeClass, node == clickedMenu);
+                node.pseudoClassStateChanged(inactiveClass, node != clickedMenu);
+            }
+        }
 
-    @FXML
-    protected void onHistoryMenuClick() {
-        //onMenuClick("history-view.fxml", "/nl/inholland/view/css/history-view.css", historyMenu);
+        setMenuBasedOnAccess();
     }
 }

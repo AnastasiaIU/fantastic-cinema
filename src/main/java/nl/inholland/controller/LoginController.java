@@ -3,7 +3,6 @@ package nl.inholland.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -65,7 +64,7 @@ public class LoginController implements Initializable {
 
             User user = login(username, password);
 
-            showWelcomeScreen(user);
+            showMainView(user);
         });
     }
 
@@ -106,20 +105,15 @@ public class LoginController implements Initializable {
      *
      * @param user The authenticated user. If null, the login is considered unsuccessful.
      */
-    private void showWelcomeScreen(User user) {
+    private void showMainView(User user) {
         if (user != null) {
             // Successful login, open main-view.fxml
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/main-view.fxml"));
-                Parent root = fxmlLoader.load();
-
-                Stage stage = (Stage) loginButton.getScene().getWindow();
-                Scene scene = new Scene(root);
+                fxmlLoader.setController(new MainController(database, user));
+                Scene scene = new Scene(fxmlLoader.load());
                 scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/nl/inholland/view/css/main-view.css")).toExternalForm());
-
-                InitializableMenu controller = fxmlLoader.getController();
-                controller.initialize(user, null);
-
+                Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {

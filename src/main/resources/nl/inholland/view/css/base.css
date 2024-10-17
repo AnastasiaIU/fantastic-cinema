@@ -1,0 +1,23 @@
+.root {
+    -fx-background-color: #E5E5E5;
+}
+
+.prompt-label {
+    -fx-text-fill: red;
+}
+
+.blue-button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+}
+
+.blue-button:focused {
+    -fx-border-color: darkblue;
+}
+
+.title-label {
+    -fx-text-fill: #969696;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-padding: 0 0 10 0;
+}
