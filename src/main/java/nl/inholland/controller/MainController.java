@@ -21,7 +21,6 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
     // Reference to the shared Database instance
     private final Database database;
-
     private final User currentUser;
 
     private final PseudoClass activeClass = PseudoClass.getPseudoClass("active");
@@ -54,12 +53,12 @@ public class MainController implements Initializable {
         });
 
         showingsMenuButton.setOnAction(event -> {
-            //loadScene("/nl/inholland/view/showings-view.fxml", "/nl/inholland/view/css/showings-view.css", new ShowingsController());
+            loadScene("/nl/inholland/view/showings-view.fxml", new ShowingsController(database, root));
             setMenuBasedOnClick(showingsMenuButton);
         });
 
         historyMenuButton.setOnAction(event -> {
-            //loadScene("/nl/inholland/view/history-view.fxml", "/nl/inholland/view/css/history-view.css", new HistoryController());
+            loadScene("/nl/inholland/view/history-view.fxml", new HistoryController());
             setMenuBasedOnClick(historyMenuButton);
         });
 

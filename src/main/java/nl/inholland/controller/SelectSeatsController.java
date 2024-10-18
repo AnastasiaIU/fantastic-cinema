@@ -5,11 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.shape.Line;
 import nl.inholland.Database;
 import nl.inholland.model.Selling;
 import nl.inholland.model.Showing;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SelectSeatsController implements Initializable {
@@ -27,19 +29,25 @@ public class SelectSeatsController implements Initializable {
 
     private final VBox root;
 
-    private Showing selectedShowing;
+    private final Showing selectedShowing;
     private ObservableList<int[]> chosenSeats;
 
     @FXML
-    private Label selectedShowingLbl;
+    private Label selectedShowingLabel;
+    @FXML
+    private Label screenLabel;
     @FXML
     private Button sellButton;
+    @FXML
+    private Button cancelButton;
     @FXML
     private VBox roomSeatsVBox;
     @FXML
     private ListView<int[]> selectedSeatsListView;
     @FXML
     private TextField customerTextField;
+    @FXML
+    private Line screenLine;
 
     public SelectSeatsController(Database database, Showing selectedShowing, VBox root) {
         this.database = database;
@@ -51,13 +59,22 @@ public class SelectSeatsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chosenSeats = FXCollections.observableArrayList();
         selectedSeatsListView.setItems(chosenSeats);
-        setCellValueFactories();
+        selectedShowingLabel.setText(getSelectedShowing());
 
-        selectedShowingLbl.setText(getSelectedShowing());
+        setCellFactory();
         displaySeats();
-
         setListeners();
     }
+
+    private void drawScreenLine(Label rowName) {
+        double labelWidth = rowName.getLayoutBounds().getWidth();
+        double rowWidth = rowName.getParent().getLayoutBounds().getWidth();
+        VBox.setMargin(screenLine, new Insets(0, 0, 0, labelWidth));
+        screenLine.setEndX(rowWidth - labelWidth);
+        double screenLabelX = labelWidth + (rowWidth - labelWidth) / 2 - screenLabel.getLayoutBounds().getWidth() / 2;
+        VBox.setMargin(screenLabel, new Insets(0, 0, 6, screenLabelX));
+    }
+
 
     private void setListeners() {
         chosenSeats.addListener(
@@ -77,6 +94,36 @@ public class SelectSeatsController implements Initializable {
                     sellButton.setDisable(this.chosenSeats.isEmpty() || newValue.isEmpty());
                 }
         );
+
+        Label rowName = getRowNameLabel();
+        rowName.widthProperty().addListener((observable, oldValue, newValue) -> {
+            drawScreenLine(rowName);
+        });
+
+        sellButton.setOnAction(event -> {
+            onSellButtonClick();
+        });
+
+        cancelButton.setOnAction(event -> {
+            openSellView();
+        });
+    }
+
+    private Label getRowNameLabel() {
+        Label rowName = null;
+
+        for (Node node : roomSeatsVBox.getChildren()) {
+            if (rowName != null) break;
+
+            for (Node child : ((HBox) node).getChildren()) {
+                if (child instanceof Label) {
+                    rowName = (Label) child;
+                    break;
+                }
+            }
+        }
+
+        return rowName;
     }
 
     private String getSelectedShowing() {
@@ -85,13 +132,12 @@ public class SelectSeatsController implements Initializable {
         return date + " " + selectedShowing.getTitle();
     }
 
-    @FXML
-    protected void onSellButtonClick() {
+    private void onSellButtonClick() {
         String customerName = customerTextField.getText();
         LocalDateTime now = LocalDateTime.now();
         int ticketsSold = chosenSeats.size();
         String showing = getSelectedShowing();
-        Selling selling = new Selling(-1, now, ticketsSold, showing, customerName, chosenSeats);
+        Selling selling = new Selling(-1, now, ticketsSold, showing, customerName, new ArrayList<>(chosenSeats));
 
         database.addSelling(selling);
 
@@ -99,11 +145,6 @@ public class SelectSeatsController implements Initializable {
             database.sellTicket(selectedShowing.getId(), chosenSeat);
         }
 
-        openSellView();
-    }
-
-    @FXML
-    protected void onCancelButtonClick() {
         openSellView();
     }
 
@@ -161,7 +202,6 @@ public class SelectSeatsController implements Initializable {
     private HBox createRow(int number) {
         HBox rowHBox = new HBox();
         Label rowName = new Label(String.format("Row %d", number));
-        rowName.getStyleClass().clear();
         rowName.getStyleClass().add("row-name");
         rowHBox.getChildren().add(rowName);
         roomSeatsVBox.getChildren().add(rowHBox);
@@ -172,7 +212,7 @@ public class SelectSeatsController implements Initializable {
         int[] seat = (int[]) seatButton.getUserData();
 
         if (chosenSeats.contains(seat)) {
-            chosenSeats.remove(seatButton.getUserData());
+            chosenSeats.remove(seat);
             seatButton.getStyleClass().remove("seat-chosen");
         } else {
             chosenSeats.add(seat);
@@ -180,7 +220,7 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
-    private void setCellValueFactories() {
+    private void setCellFactory() {
         selectedSeatsListView.setCellFactory(
                 param -> new ListCell<>() {
                     @Override

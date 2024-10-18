@@ -1,10 +1,14 @@
 package nl.inholland.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class Selling implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private LocalDateTime dateTime;
     private int ticketsSold;

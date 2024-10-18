@@ -11,13 +11,23 @@
     -fx-text-fill: white;
 }
 
-.blue-button:focused {
-    -fx-border-color: darkblue;
+.gray-button {
+    -fx-background-color: #797979;
+    -fx-text-fill: white;
+}
+
+.red-button {
+    -fx-background-color: #C60108;
+    -fx-text-fill: white;
+}
+
+.blue-button:hover, .gray-button:hover, .red-button:hover {
+    -fx-opacity: 0.7;
 }
 
 .title-label {
     -fx-text-fill: #969696;
     -fx-font-weight: bold;
     -fx-font-size: 24;
-    -fx-padding: 0 0 10 0;
+    -fx-padding: 0 0 6 0;
 }

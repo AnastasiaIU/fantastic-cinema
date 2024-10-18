@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="welcome-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    <Label fx:id="welcomeLabel" styleClass="title-label" text="Welcome "/>
-    <Label fx:id="loggedUserLabel" text="You are logged in as "/>
-    <Label fx:id="currentDateLabel" text="The current date and time is "/>
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" styleClass="welcome-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Label fx:id="welcomeLabel" maxHeight="1.7976931348623157E308" styleClass="title-label" text="Welcome " VBox.vgrow="ALWAYS">
+      <VBox.margin>
+         <Insets top="150.0" />
+      </VBox.margin></Label>
+    <Label fx:id="loggedUserLabel" text="You are logged in as " />
+    <Label fx:id="currentDateLabel" text="The current date and time is " />
 </VBox>

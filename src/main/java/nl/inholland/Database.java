@@ -5,26 +5,20 @@ import nl.inholland.model.Selling;
 import nl.inholland.model.Showing;
 import nl.inholland.model.User;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class Database implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     private final List<User> users = new ArrayList<>();
     private final List<Showing> showings = new ArrayList<>();
     private final List<Selling> sells = new ArrayList<>();
 
     public Database() {
-        Random random = new Random();
-
         // Add some users
         users.add(new User("admin", "admin", AccessLevel.MANAGEMENT));
         users.add(new User("sell", "sell", AccessLevel.SALES));
@@ -116,6 +110,7 @@ public class Database implements Serializable {
     }
 
     public void addSelling(Selling selling) {
+        selling.setId(sells.size());
         sells.add(selling);
     }
 

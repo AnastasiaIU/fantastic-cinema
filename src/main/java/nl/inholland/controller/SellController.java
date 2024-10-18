@@ -22,7 +22,6 @@ public class SellController implements Initializable {
 
     // Reference to the shared Database instance
     private final Database database;
-
     private final VBox root;
 
     @FXML

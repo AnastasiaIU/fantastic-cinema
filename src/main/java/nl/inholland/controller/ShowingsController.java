@@ -6,12 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import nl.inholland.Database;
 import nl.inholland.model.Showing;
-import nl.inholland.service.ShowingService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,8 +18,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ShowingsController extends BaseController implements Initializable {
-    private ShowingService showingService;
+public class ShowingsController implements Initializable {
+    // Reference to the shared Database instance
+    private final Database database;
+    private final VBox root;
 
     private ObservableList<Showing> showings;
 
@@ -31,7 +32,7 @@ public class ShowingsController extends BaseController implements Initializable 
     @FXML
     private Button deleteShowingButton;
     @FXML
-    private Label errorLbl;
+    private Label errorLabel;
     @FXML
     TableColumn<Showing, String> seatsLeftColumn;
     @FXML
@@ -39,10 +40,14 @@ public class ShowingsController extends BaseController implements Initializable 
     @FXML
     TableColumn<Showing, String> endColumn;
 
+    public ShowingsController(Database database, VBox root) {
+        this.database = database;
+        this.root = root;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showingService = new ShowingService();
-        showings = FXCollections.observableArrayList(showingService.getAllShowings());
+        showings = FXCollections.observableArrayList(database.getAllShowings());
         showingsTableView.setItems(showings);
 
         addSelectionListenerToTableView();
@@ -73,7 +78,7 @@ public class ShowingsController extends BaseController implements Initializable 
                         editShowingButton.setDisable(true);
                         deleteShowingButton.setDisable(true);
                     }
-                    errorLbl.setVisible(false);
+                    errorLabel.setVisible(false);
                 }
         );
 
@@ -85,12 +90,12 @@ public class ShowingsController extends BaseController implements Initializable 
         Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
 
         if (selectedShowing.isTicketsSold()) {
-            errorLbl.setVisible(true);
+            errorLabel.setVisible(true);
         } else {
             boolean userChoice = showConfirmationDialog(selectedShowing);
 
             if (userChoice) {
-                showingService.deleteShowing(selectedShowing);
+                database.deleteShowing(selectedShowing);
                 showings.remove(selectedShowing);
             }
         }
@@ -124,20 +129,15 @@ public class ShowingsController extends BaseController implements Initializable 
         try {
             Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add-edit-showing-view.fxml"));
-            Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/add-edit-showing-view.fxml"));
+            fxmlLoader.setController(new SelectSeatsController(database, selectedShowing, root));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            Stage stage = (Stage) showingsTableView.getScene().getWindow();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/nl/inholland/view/css/add-edit-showing-view.css").toExternalForm());
-
-            AddEditShowingController controller = fxmlLoader.getController();
-            controller.initialize(currentUser, showingsMenu, selectedShowing, isAdd);
-
-            stage.setScene(scene);
-            stage.show();
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

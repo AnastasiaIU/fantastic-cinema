@@ -32,7 +32,7 @@ public class MainApplication extends Application {
     @Override
     public void stop() throws Exception {
         // Serialize the database before the application closes
-        saveDatabase(database);
+        saveDatabase();
         super.stop();
     }
 
@@ -41,18 +41,20 @@ public class MainApplication extends Application {
     }
 
     // Method to serialize the database to a file
-    private void saveDatabase(Database database) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATABASE_FILE))) {
-            out.writeObject(database);
+    private void saveDatabase() {
+        try (FileOutputStream fos = new FileOutputStream(DATABASE_FILE);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(database);
         } catch (IOException e) {
-            System.err.println("Error saving the database: " + e.getMessage());
+            throw new RuntimeException("Error saving the database: " + e.getMessage(), e);
         }
     }
 
     // Method to deserialize the database from a file
     private Database loadDatabase() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATABASE_FILE))) {
-            return (Database) in.readObject();
+        try (FileInputStream fis = new FileInputStream(DATABASE_FILE);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            return (Database) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             // Return a new database if the file does not exist or deserialization fails
             return new Database();

@@ -2,7 +2,7 @@
 
 #root {
     -fx-pref-width: 775;
-    -fx-pref-height: 500;
+    -fx-pref-height: 550;
 }
 
 .header {
@@ -56,13 +56,78 @@
     -fx-padding: 12;
 }
 
-.selected-seats-root {
+.white-background {
     -fx-background-color: #FFFFFF;
     -fx-padding: 12;
 }
 
-#selectedLabel {
+.bold-label {
     -fx-font-size: 12;
     -fx-font-weight: bold;
+}
+
+#selectedLabel {
     -fx-padding: 0 0 12 6;
+}
+
+.select-seats-root {
+    -fx-padding: 12;
+    -fx-spacing: 6;
+}
+
+.purchase-root {
+    -fx-padding: 12;
+    -fx-spacing: 6;
+}
+
+.row-name {
+    -fx-padding: 0 16 0 0;
+    -fx-pref-height: 40;
+}
+
+.seat-button {
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-max-height: 40;
+    -fx-min-width: 40;
+    -fx-pref-width: 40;
+    -fx-max-width: 40;
+    -fx-background-insets: 5;
+    -fx-text-fill: white;
+    -fx-focus-traversable: false;
+}
+
+.seat-taken, .seat-taken:disabled {
+    -fx-background-color: #FF0000;
+    -fx-opacity: 1;
+}
+
+.seat-free {
+    -fx-background-color: #5D5E5E;
+}
+
+.seat-chosen {
+    -fx-background-color: #00FF00;
+}
+
+.seat-button:hover {
+    -fx-opacity: 0.7;
+}
+
+.bottom-padding {
+    -fx-padding: 0 0 6 0;
+}
+
+#customerTextField {
+    -fx-pref-width: 350;
+    -fx-min-width: 350;
+    -fx-max-width: 350;
+}
+
+#selectedSeatsListView {
+    -fx-border-color: #797979;
+}
+
+.showing-view-root {
+    -fx-padding: 12;
 }

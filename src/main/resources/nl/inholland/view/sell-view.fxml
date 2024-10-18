@@ -5,40 +5,38 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    <VBox styleClass="sells-table-view-root">
-        <Label styleClass="title-label" text="Sell tickets"/>
-        <Label styleClass="room-label" text="Room 1"/>
-        <TableView fx:id="sellsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308"
-                   maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="startColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
-                             text="Start"/>
-                <TableColumn fx:id="endColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
-                             text="End"/>
-                <TableColumn maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Title">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="title"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="seatsLeftColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0"
-                             resizable="false" text="Seats left"/>
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-            <opaqueInsets>
-                <Insets/>
-            </opaqueInsets>
-        </TableView>
-    </VBox>
-    <VBox styleClass="selected-seats-root" VBox.vgrow="NEVER">
+<VBox styleClass="sells-table-view-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Label styleClass="title-label" text="Sell tickets"/>
+    <Label styleClass="room-label" text="Room 1"/>
+    <TableView fx:id="sellsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308"
+               maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="startColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
+                         text="Start"/>
+            <TableColumn fx:id="endColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false"
+                         text="End"/>
+            <TableColumn maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Title">
+                <cellValueFactory>
+                    <PropertyValueFactory property="title"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="seatsLeftColumn" maxWidth="110.0" minWidth="110.0" prefWidth="110.0"
+                         resizable="false" text="Seats left"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+    </TableView>
+    <VBox styleClass="white-background" VBox.vgrow="NEVER">
         <VBox.margin>
-            <Insets bottom="12.0" left="12.0" right="12.0"/>
+            <Insets top="12.0"/>
         </VBox.margin>
         <HBox>
             <Label text="Selected:"/>
-            <Label fx:id="selectedLabel"/>
+            <Label fx:id="selectedLabel" styleClass="bold-label"/>
         </HBox>
         <Button fx:id="selectSeatsButton" styleClass="blue-button" disable="true" mnemonicParsing="false"
                 text="Select seats(s)"/>
