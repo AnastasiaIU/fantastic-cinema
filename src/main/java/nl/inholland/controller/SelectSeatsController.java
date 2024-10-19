@@ -57,7 +57,7 @@ public class SelectSeatsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chosenSeats = FXCollections.observableArrayList();
         selectedSeatsListView.setItems(chosenSeats);
-        selectedShowingLabel.setText(getSelectedShowing());
+        selectedShowingLabel.setText(getFormattedSelectedShowing());
 
         setCellFactory();
         displaySeats();
@@ -145,7 +145,7 @@ public class SelectSeatsController implements Initializable {
         return rowName;
     }
 
-    private String getSelectedShowing() {
+    private String getFormattedSelectedShowing() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String date = formatter.format(selectedShowing.getStartDateTime());
         return date + " " + selectedShowing.getTitle();
@@ -155,8 +155,7 @@ public class SelectSeatsController implements Initializable {
         String customerName = customerTextField.getText();
         LocalDateTime now = LocalDateTime.now();
         int ticketsSold = chosenSeats.size();
-        String showing = getSelectedShowing();
-        Selling selling = new Selling(-1, now, ticketsSold, showing, customerName, new ArrayList<>(chosenSeats));
+        Selling selling = new Selling(-1, now, ticketsSold, selectedShowing, customerName, new ArrayList<>(chosenSeats));
 
         database.addSelling(selling);
 

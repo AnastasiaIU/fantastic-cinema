@@ -98,7 +98,7 @@ public class MainController implements Initializable {
         });
 
         historyMenuButton.setOnAction(event -> {
-            loadScene("/nl/inholland/view/history-view.fxml", new HistoryController());
+            loadScene("/nl/inholland/view/history-view.fxml", new HistoryController(database));
             setMenuBasedOnClick(historyMenuButton);
         });
     }

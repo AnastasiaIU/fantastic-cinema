@@ -12,11 +12,11 @@ public class Selling implements Serializable {
     private int id;
     private LocalDateTime dateTime;
     private int ticketsSold;
-    private String showing;
+    private Showing showing;
     private String customer;
     private List<int[]> seats;
 
-    public Selling(int id, LocalDateTime dateTime, int ticketsSold, String showing, String customer, List<int[]> seats) {
+    public Selling(int id, LocalDateTime dateTime, int ticketsSold, Showing showing, String customer, List<int[]> seats) {
         this.id = id;
         this.dateTime = dateTime;
         this.ticketsSold = ticketsSold;
@@ -37,7 +37,7 @@ public class Selling implements Serializable {
         this.ticketsSold = ticketsSold;
     }
 
-    public void setShowing(String showing) {
+    public void setShowing(Showing showing) {
         this.showing = showing;
     }
 
@@ -61,7 +61,7 @@ public class Selling implements Serializable {
         return ticketsSold;
     }
 
-    public String getShowing() {
+    public Showing getShowing() {
         return showing;
     }
 

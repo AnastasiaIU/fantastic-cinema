@@ -27,6 +27,7 @@ public class MainApplication extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/nl/inholland/view/css/login-view.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
 
     @Override
