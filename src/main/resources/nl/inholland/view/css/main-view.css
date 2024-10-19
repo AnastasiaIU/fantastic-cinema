@@ -41,19 +41,10 @@
     -fx-opacity: 0.7;
 }
 
-.welcome-root {
-    -fx-padding: 12;
-    -fx-spacing: 6;
-}
-
 .room-label {
     -fx-font-size: 16;
     -fx-font-weight: bold;
     -fx-padding: 0 0 6 0;
-}
-
-.sells-table-view-root {
-    -fx-padding: 12;
 }
 
 .white-background {
@@ -68,16 +59,6 @@
 
 #selectedLabel {
     -fx-padding: 0 0 12 6;
-}
-
-.select-seats-root {
-    -fx-padding: 12;
-    -fx-spacing: 6;
-}
-
-.purchase-root {
-    -fx-padding: 12;
-    -fx-spacing: 6;
 }
 
 .row-name {
@@ -114,10 +95,6 @@
     -fx-opacity: 0.7;
 }
 
-.bottom-padding {
-    -fx-padding: 0 0 6 0;
-}
-
 #customerTextField {
     -fx-pref-width: 350;
     -fx-min-width: 350;
@@ -128,6 +105,27 @@
     -fx-border-color: #797979;
 }
 
-.showing-view-root {
-    -fx-padding: 12;
+#titleTextField {
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
+}
+
+.pref-height-25 {
+    -fx-pref-height: 25;
+}
+
+#errorLabel {
+    -fx-padding: 12 0 12 0;
+}
+
+.time-spinner {
+    -fx-pref-width: 60;
+}
+
+.text-field:error {
+    -fx-text-box-border: red;
+}
+
+.date-picker:error, .spinner:error {
+    -fx-border-color: red ;
 }

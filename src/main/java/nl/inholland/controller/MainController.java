@@ -46,7 +46,47 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setMenuBasedOnAccess();
         setMenuBasedOnClick(null);
+        setListenersToMenu();
+        loadScene("/nl/inholland/view/welcome-view.fxml", new WelcomeController(currentUser));
+    }
 
+    private void loadScene(String fxmlName, Object controller) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlName));
+            fxmlLoader.setController(controller);
+            Scene scene = new Scene(fxmlLoader.load());
+
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setMenuBasedOnAccess() {
+        // Set the menu based on the user's access level
+        if (currentUser.getAccessLevel() == AccessLevel.MANAGEMENT) {
+            Objects.requireNonNull(sellMenuButton).setDisable(true);
+        } else {
+            Objects.requireNonNull(showingsMenuButton).setDisable(true);
+            Objects.requireNonNull(historyMenuButton).setDisable(true);
+        }
+    }
+
+    private void setMenuBasedOnClick(Button clickedMenu) {
+        for (Node node : header.getChildren()) {
+            if (node instanceof Button) {
+                node.setDisable(node == clickedMenu);
+                node.pseudoClassStateChanged(activeClass, node == clickedMenu);
+                node.pseudoClassStateChanged(inactiveClass, node != clickedMenu);
+            }
+        }
+
+        setMenuBasedOnAccess();
+    }
+
+    private void setListenersToMenu() {
         sellMenuButton.setOnAction(event -> {
             loadScene("/nl/inholland/view/sell-view.fxml", new SellController(database, root));
             setMenuBasedOnClick(sellMenuButton);
@@ -61,43 +101,5 @@ public class MainController implements Initializable {
             loadScene("/nl/inholland/view/history-view.fxml", new HistoryController());
             setMenuBasedOnClick(historyMenuButton);
         });
-
-        loadScene("/nl/inholland/view/welcome-view.fxml", new WelcomeController(currentUser));
-    }
-
-    protected void loadScene(String fxmlName, Object controller) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlName));
-            fxmlLoader.setController(controller);
-            Scene scene = new Scene(fxmlLoader.load());
-
-            if (root.getChildren().size() > 1)
-                root.getChildren().remove(1);
-            root.getChildren().add(scene.getRoot());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected void setMenuBasedOnAccess() {
-        // Set the menu based on the user's access level
-        if (currentUser.getAccessLevel() == AccessLevel.MANAGEMENT) {
-            Objects.requireNonNull(sellMenuButton).setDisable(true);
-        } else {
-            Objects.requireNonNull(showingsMenuButton).setDisable(true);
-            Objects.requireNonNull(historyMenuButton).setDisable(true);
-        }
-    }
-
-    protected void setMenuBasedOnClick(Button clickedMenu) {
-        for (Node node : header.getChildren()) {
-            if (node instanceof Button) {
-                node.setDisable(node == clickedMenu);
-                node.pseudoClassStateChanged(activeClass, node == clickedMenu);
-                node.pseudoClassStateChanged(inactiveClass, node != clickedMenu);
-            }
-        }
-
-        setMenuBasedOnAccess();
     }
 }

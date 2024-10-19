@@ -3,64 +3,70 @@ package nl.inholland.controller;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
+import nl.inholland.Database;
 import nl.inholland.model.Showing;
-import nl.inholland.model.User;
-import nl.inholland.service.ShowingService;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ResourceBundle;
 
-public class AddEditShowingController extends BaseController {
+public class AddEditShowingController implements Initializable {
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    private ShowingService showingService;
-    private Showing selectedShowing;
-    private boolean isAdd;
+
+    // Reference to the shared Database instance
+    private final Database database;
+    private final VBox root;
+    private final Showing selectedShowing;
+    private final boolean isAdd;
 
     @FXML
-    private Label titleLbl;
+    private Label titleLabel;
     @FXML
-    private Label titlePromptLbl;
+    private Label titlePromptLabel;
     @FXML
-    private Label startDateTimePromptLbl;
+    private Label startDateTimePromptLabel;
     @FXML
-    private Label durationPromptLbl;
+    private Label durationDateTimePromptLabel;
     @FXML
-    private Label endDateTimeLbl;
+    private Label endDateTimeLabel;
     @FXML
     private TextField titleTextField;
     @FXML
     private DatePicker startDatePicker;
     @FXML
-    private Spinner<Integer> hoursSpinner;
+    private Spinner<Integer> startHoursSpinner;
     @FXML
-    private Spinner<Integer> minutesSpinner;
+    private Spinner<Integer> startMinutesSpinner;
     @FXML
-    private TextField durationTextField;
+    private Spinner<Integer> durationHoursSpinner;
+    @FXML
+    private Spinner<Integer> durationMinutesSpinner;
     @FXML
     private Button confirmButton;
+    @FXML
+    private Button cancelButton;
 
-    public void initialize(User currentUser, Menu clickedMenu, Showing selectedShowing, boolean isAdd) {
-        super.initialize(currentUser, clickedMenu);
-
-        showingService = new ShowingService();
+    public AddEditShowingController(Database database, VBox root, Showing selectedShowing) {
+        this.database = database;
+        this.root = root;
         this.selectedShowing = selectedShowing;
-        this.isAdd = isAdd;
-
-        setAddEditView();
+        isAdd = selectedShowing == null;
     }
 
-    private void setAddEditView() {
-        titleLbl.setText(isAdd ? "Add Showing" : "Edit Showing");
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        titleLabel.setText(isAdd ? "Add Showing" : "Edit Showing");
         confirmButton.setText(isAdd ? "Add showing" : "Edit showing");
 
         setDatePickerConverter();
@@ -70,11 +76,12 @@ public class AddEditShowingController extends BaseController {
             fillShowingData();
         }
 
-        setListeners();
+        setListenersToRefreshAfterError();
+        addListenersToButtons();
     }
 
     private void setDatePickerConverter() {
-        StringConverter converter = new StringConverter<LocalDate>() {
+        StringConverter<LocalDate> converter = new StringConverter<>() {
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
@@ -93,23 +100,7 @@ public class AddEditShowingController extends BaseController {
         startDatePicker.setConverter(converter);
     }
 
-    @FXML
-    protected void onConfirmButtonClick() {
-        String title = titleTextField.getText();
-        LocalTime duration = tryParseLocalTime(durationTextField.getText());
-        LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
-
-        displayErrors(title, startDate, duration);
-
-        if (!title.isEmpty() && startDate != null && duration != null) {
-            Showing showing = getShowing(startDate, duration, title);
-
-            showingService.addUpdateShowing(showing);
-            openShowingsView();
-        }
-    }
-
-    private void displayErrors(String title, LocalDate startDate, LocalTime duration) {
+    private void displayErrors(String title, LocalDate startDate, int duration) {
         if (title.isEmpty()) {
             showTitleError(true);
         }
@@ -118,8 +109,8 @@ public class AddEditShowingController extends BaseController {
             showStartDateError(true);
         }
 
-        if (duration == null) {
-            showDurationError(true);
+        if (duration == 0) {
+            showDurationTimeError(true);
         }
     }
 
@@ -129,7 +120,7 @@ public class AddEditShowingController extends BaseController {
         if (isAdd) {
             showing = new Showing(
                     -1,
-                    LocalDateTime.of(startDate, LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue())),
+                    LocalDateTime.of(startDate, LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue())),
                     0,
                     duration,
                     title,
@@ -139,7 +130,7 @@ public class AddEditShowingController extends BaseController {
             showing = selectedShowing;
             showing.setTitle(title);
             showing.setStartDateTime(
-                    LocalDateTime.of(startDate, LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue()))
+                    LocalDateTime.of(startDate, LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue()))
             );
             showing.setDuration(duration);
         }
@@ -147,35 +138,17 @@ public class AddEditShowingController extends BaseController {
         return showing;
     }
 
-    @FXML
-    protected void onCancelButtonClick() {
-        openShowingsView();
-    }
-
     private void openShowingsView() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("showings-view.fxml"));
-            Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/showings-view.fxml"));
+            fxmlLoader.setController(new ShowingsController(database, root));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            Stage stage = (Stage) titleLbl.getScene().getWindow();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/nl/inholland/view/css/showings-view.css").toExternalForm());
-
-            InitializableMenu controller = fxmlLoader.getController();
-            controller.initialize(currentUser, showingsMenu);
-
-            stage.setScene(scene);
-            stage.show();
+            if (root.getChildren().size() > 1)
+                root.getChildren().remove(1);
+            root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private LocalTime tryParseLocalTime(String input) {
-        try {
-            return LocalTime.parse(input);
-        } catch (DateTimeParseException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -188,28 +161,29 @@ public class AddEditShowingController extends BaseController {
     }
 
     private void showTitleError(boolean show) {
-        titlePromptLbl.setVisible(show);
+        titlePromptLabel.setVisible(show);
         titleTextField.pseudoClassStateChanged(errorClass, show);
     }
 
-    private void showDurationError(boolean show) {
-        durationPromptLbl.setVisible(show);
-        durationTextField.pseudoClassStateChanged(errorClass, show);
+    private void showStartDateError(boolean show) {
+        startDateTimePromptLabel.setVisible(show);
+        startDatePicker.pseudoClassStateChanged(errorClass, show);
     }
 
-    private void showStartDateError(boolean show) {
-        startDateTimePromptLbl.setText("Wrong input. Please, follow the DD-MM-YYYY format.");
-        startDateTimePromptLbl.setVisible(show);
-        startDatePicker.pseudoClassStateChanged(errorClass, show);
+    private void showDurationTimeError(boolean show) {
+        durationDateTimePromptLabel.setVisible(show);
+        durationHoursSpinner.pseudoClassStateChanged(errorClass, show);
+        durationMinutesSpinner.pseudoClassStateChanged(errorClass, show);
     }
 
     private void updateEndDateTimeLabel() {
         LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
-        LocalTime duration = tryParseLocalTime(durationTextField.getText());
+        LocalTime duration = LocalTime.of(durationHoursSpinner.getValue(), durationMinutesSpinner.getValue());
+        int durationInMinutes = duration.getHour() + duration.getMinute();
 
-        if (startDate != null && duration != null) {
+        if (startDate != null && durationInMinutes != 0) {
             // Get the start time from the spinners
-            LocalTime startTime = LocalTime.of(hoursSpinner.getValue(), minutesSpinner.getValue());
+            LocalTime startTime = LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue());
 
             // Calculate the end time by adding the duration
             LocalTime endTime = startTime.plusHours(duration.getHour()).plusMinutes(duration.getMinute());
@@ -223,7 +197,9 @@ public class AddEditShowingController extends BaseController {
             }
 
             // Update the label with the end date and time
-            endDateTimeLbl.setText(dateFormatter.format(startDate) + " " + endTime);
+            endDateTimeLabel.setText(dateFormatter.format(startDate) + " " + endTime);
+        } else {
+            endDateTimeLabel.setText("DD-MM-YYYY HH:MM");
         }
     }
 
@@ -239,36 +215,29 @@ public class AddEditShowingController extends BaseController {
     }
 
     private void setSpinnerFactories() {
-        hoursSpinner.setValueFactory(
-                isAdd ? new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23) :
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                                0, 23, selectedShowing.getStartDateTime().getHour()
-                        )
-        );
+        setSpinnerFactory(startHoursSpinner, 23, isAdd ? null : selectedShowing.getStartDateTime().getHour());
+        setSpinnerFactory(startMinutesSpinner, 59, isAdd ? null : selectedShowing.getStartDateTime().getMinute());
+        setSpinnerFactory(durationHoursSpinner, 23, isAdd ? null : selectedShowing.getDuration().getHour());
+        setSpinnerFactory(durationMinutesSpinner, 59, isAdd ? null : selectedShowing.getDuration().getMinute());
+    }
 
-        minutesSpinner.setValueFactory(
-                isAdd ? new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59) :
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                                0, 59, selectedShowing.getStartDateTime().getMinute()
-                        )
+    private void setSpinnerFactory(Spinner<Integer> spinner, int max, Integer initialValue) {
+        spinner.setValueFactory(
+                initialValue == null
+                        ? new SpinnerValueFactory.IntegerSpinnerValueFactory(0, max)
+                        : new SpinnerValueFactory.IntegerSpinnerValueFactory(0, max, initialValue)
         );
     }
 
     private void fillShowingData() {
         titleTextField.setText(selectedShowing.getTitle());
         startDatePicker.setValue(selectedShowing.getStartDateTime().toLocalDate());
-        durationTextField.setText(String.valueOf(selectedShowing.getDuration()));
         updateEndDateTimeLabel();
     }
 
-    private void setListeners() {
+    private void setListenersToRefreshAfterError() {
         titleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             showTitleError(false);
-        });
-
-        durationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            showDurationError(false);
-            updateEndDateTimeLabel();
         });
 
         startDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -276,12 +245,44 @@ public class AddEditShowingController extends BaseController {
             updateEndDateTimeLabel();
         });
 
-        hoursSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+        startHoursSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateEndDateTimeLabel();
         });
 
-        minutesSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+        startMinutesSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             updateEndDateTimeLabel();
+        });
+
+        durationHoursSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            showDurationTimeError(false);
+            updateEndDateTimeLabel();
+        });
+
+        durationMinutesSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            showDurationTimeError(false);
+            updateEndDateTimeLabel();
+        });
+    }
+
+    private void addListenersToButtons() {
+        confirmButton.setOnAction(event -> {
+            String title = titleTextField.getText();
+            LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
+            LocalTime duration = LocalTime.of(durationHoursSpinner.getValue(), durationMinutesSpinner.getValue());
+            int durationInMinutes = duration.getHour() + duration.getMinute();
+
+            displayErrors(title, startDate, durationInMinutes);
+
+            if (!title.isEmpty() && startDate != null && durationInMinutes != 0) {
+                Showing showing = getShowing(startDate, duration, title);
+
+                database.addUpdateShowing(showing);
+                openShowingsView();
+            }
+        });
+
+        cancelButton.setOnAction(event -> {
+            openShowingsView();
         });
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="showing-view-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox styleClass="padding-16" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <Label styleClass="title-label" text="Manage showings"/>
     <Label styleClass="room-label" text="Room 1"/>
     <TableView fx:id="showingsTableView" cache="true" focusTraversable="false">
@@ -31,18 +31,10 @@
     </TableView>
     <Label fx:id="errorLabel" styleClass="prompt-label"
            text="Cannot delete the show because tickets have already been sold." visible="false"/>
-    <HBox fillHeight="false" VBox.vgrow="NEVER">
-        <Button fx:id="addShowingButton" mnemonicParsing="false" styleClass="blue-button" text="Add showing">
-            <HBox.margin>
-                <Insets right="6.0"/>
-            </HBox.margin>
-        </Button>
+    <HBox styleClass="spacing-6" fillHeight="false" VBox.vgrow="NEVER">
+        <Button fx:id="addShowingButton" mnemonicParsing="false" styleClass="blue-button" text="Add showing"/>
         <Button fx:id="editShowingButton" disable="true" mnemonicParsing="false" styleClass="gray-button"
-                text="Edit showing">
-            <HBox.margin>
-                <Insets right="6.0"/>
-            </HBox.margin>
-        </Button>
+                text="Edit showing"/>
         <Button fx:id="deleteShowingButton" disable="true" mnemonicParsing="false" styleClass="red-button"
                 text="Delete showing"/>
     </HBox>

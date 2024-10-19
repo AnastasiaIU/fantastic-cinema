@@ -12,7 +12,7 @@ import nl.inholland.model.User;
 
 import java.io.IOException;
 
-public class BaseController implements InitializableMenu {
+public abstract class BaseController implements InitializableMenu {
     @FXML
     private Menu sellMenu;
     @FXML

@@ -95,7 +95,7 @@ public class SellController implements Initializable {
             Showing selectedShowing = sellsTableView.getSelectionModel().getSelectedItem();
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/select-seats-view.fxml"));
-            fxmlLoader.setController(new SelectSeatsController(database, selectedShowing, root));
+            fxmlLoader.setController(new SelectSeatsController(database, root, selectedShowing));
             Scene scene = new Scene(fxmlLoader.load());
 
             if (root.getChildren().size() > 1)

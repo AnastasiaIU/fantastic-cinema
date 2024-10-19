@@ -5,7 +5,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="sells-table-view-root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox styleClass="padding-16" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <Label styleClass="title-label" text="Sell tickets"/>
     <Label styleClass="room-label" text="Room 1"/>
     <TableView fx:id="sellsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308"

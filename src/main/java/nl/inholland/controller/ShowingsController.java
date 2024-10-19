@@ -28,6 +28,8 @@ public class ShowingsController implements Initializable {
     @FXML
     private TableView<Showing> showingsTableView;
     @FXML
+    private Button addShowingButton;
+    @FXML
     private Button editShowingButton;
     @FXML
     private Button deleteShowingButton;
@@ -49,9 +51,10 @@ public class ShowingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showings = FXCollections.observableArrayList(database.getAllShowings());
         showingsTableView.setItems(showings);
-
-        addSelectionListenerToTableView();
         setCellValueFactories();
+        showingsTableView.getSortOrder().add(startColumn);
+        addSelectionListenerToTableView();
+        addListenersToButtons();
     }
 
     private void setCellValueFactories() {
@@ -85,52 +88,47 @@ public class ShowingsController implements Initializable {
         showingsTableView.getSelectionModel().clearSelection();
     }
 
-    @FXML
-    protected void onDeleteButtonClick() {
-        Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
+    private void addListenersToButtons() {
+        deleteShowingButton.setOnAction(event -> {
+            Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedShowing.isTicketsSold()) {
-            errorLabel.setVisible(true);
-        } else {
-            boolean userChoice = showConfirmationDialog(selectedShowing);
+            if (selectedShowing.isTicketsSold()) {
+                errorLabel.setVisible(true);
+            } else {
+                boolean userChoice = showConfirmationDialog(selectedShowing);
 
-            if (userChoice) {
-                database.deleteShowing(selectedShowing);
-                showings.remove(selectedShowing);
+                if (userChoice) {
+                    database.deleteShowing(selectedShowing);
+                    showings.remove(selectedShowing);
+                }
             }
-        }
+        });
+
+        addShowingButton.setOnAction(event -> {
+            openAddEditView(true);
+        });
+
+        editShowingButton.setOnAction(event -> {
+            openAddEditView(false);
+        });
     }
 
     private boolean showConfirmationDialog(Showing selectedShowing) {
+        // Due to lack of time a standard confirmation dialog is used which cannot be styled
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText(String.format("Are you sure you want to delete \"%s\"?", selectedShowing.getTitle()));
-
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            return true;
-        } else {
-            // if user chose CANCEL or closed the dialog
-            return false;
-        }
-    }
 
-    @FXML
-    protected void onAddButtonClick() {
-        openAddEditView(true);
-    }
-
-    @FXML
-    protected void onEditButtonClick() {
-        openAddEditView(false);
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
     private void openAddEditView(boolean isAdd) {
         try {
-            Showing selectedShowing = showingsTableView.getSelectionModel().getSelectedItem();
+            Showing selectedShowing = isAdd ? null : showingsTableView.getSelectionModel().getSelectedItem();
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/add-edit-showing-view.fxml"));
-            fxmlLoader.setController(new SelectSeatsController(database, selectedShowing, root));
+            fxmlLoader.setController(new AddEditShowingController(database, root, selectedShowing));
             Scene scene = new Scene(fxmlLoader.load());
 
             if (root.getChildren().size() > 1)

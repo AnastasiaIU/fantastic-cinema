@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
      * Initializes the login button with an event handler that validates user credentials
      * and navigates to the welcome screen upon successful login.
      *
-     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param url            The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resourceBundle The resources used to localize the root object, or null if not available.
      */
     @Override

@@ -31,3 +31,27 @@
     -fx-font-size: 24;
     -fx-padding: 0 0 6 0;
 }
+
+.bottom-padding-6 {
+    -fx-padding: 0 0 6 0;
+}
+
+.bottom-padding-16 {
+    -fx-padding: 0 0 16 0;
+}
+
+.left-padding-6 {
+    -fx-padding: 0 0 0 6;
+}
+
+.left-padding-16 {
+    -fx-padding: 0 0 0 16;
+}
+
+.spacing-6 {
+    -fx-spacing: 6;
+}
+
+.padding-16 {
+    -fx-padding: 16;
+}

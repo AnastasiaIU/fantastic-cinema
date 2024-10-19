@@ -26,9 +26,7 @@ import java.util.ResourceBundle;
 public class SelectSeatsController implements Initializable {
     // Reference to the shared Database instance
     private final Database database;
-
     private final VBox root;
-
     private final Showing selectedShowing;
     private ObservableList<int[]> chosenSeats;
 
@@ -49,7 +47,7 @@ public class SelectSeatsController implements Initializable {
     @FXML
     private Line screenLine;
 
-    public SelectSeatsController(Database database, Showing selectedShowing, VBox root) {
+    public SelectSeatsController(Database database, VBox root, Showing selectedShowing) {
         this.database = database;
         this.selectedShowing = selectedShowing;
         this.root = root;
@@ -63,7 +61,9 @@ public class SelectSeatsController implements Initializable {
 
         setCellFactory();
         displaySeats();
-        setListeners();
+        addListenersForDisablingSellButton();
+        addListenersToButtons();
+        addListenerForDrawingScreenLine();
     }
 
     private void drawScreenLine(Label rowName) {
@@ -75,8 +75,16 @@ public class SelectSeatsController implements Initializable {
         VBox.setMargin(screenLabel, new Insets(0, 0, 6, screenLabelX));
     }
 
+    // This method ensure that the screen line is drawn correctly after the scene is shown
+    private void addListenerForDrawingScreenLine() {
+        Label rowName = getRowNameLabel();
+        rowName.widthProperty().addListener((observable, oldValue, newValue) -> {
+            drawScreenLine(rowName);
+        });
+    }
 
-    private void setListeners() {
+
+    private void addListenersForDisablingSellButton() {
         chosenSeats.addListener(
                 (javafx.collections.ListChangeListener.Change<? extends int[]> c) -> {
                     sellButton.setDisable(this.chosenSeats.isEmpty() || customerTextField.getText().isEmpty());
@@ -101,7 +109,18 @@ public class SelectSeatsController implements Initializable {
         });
 
         sellButton.setOnAction(event -> {
-            onSellButtonClick();
+            addSellToDatabase();
+        });
+
+        cancelButton.setOnAction(event -> {
+            openSellView();
+        });
+    }
+
+    private void addListenersToButtons() {
+        sellButton.setOnAction(event -> {
+            addSellToDatabase();
+            openSellView();
         });
 
         cancelButton.setOnAction(event -> {
@@ -132,7 +151,7 @@ public class SelectSeatsController implements Initializable {
         return date + " " + selectedShowing.getTitle();
     }
 
-    private void onSellButtonClick() {
+    private void addSellToDatabase() {
         String customerName = customerTextField.getText();
         LocalDateTime now = LocalDateTime.now();
         int ticketsSold = chosenSeats.size();
@@ -144,8 +163,6 @@ public class SelectSeatsController implements Initializable {
         for (int[] chosenSeat : chosenSeats) {
             database.sellTicket(selectedShowing.getId(), chosenSeat);
         }
-
-        openSellView();
     }
 
     private void openSellView() {
@@ -158,7 +175,7 @@ public class SelectSeatsController implements Initializable {
                 root.getChildren().remove(1);
             root.getChildren().add(scene.getRoot());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
