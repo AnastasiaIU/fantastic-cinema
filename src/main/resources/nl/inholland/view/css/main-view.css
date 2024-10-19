@@ -122,5 +122,5 @@
 }
 
 .date-picker:error, .spinner:error {
-    -fx-border-color: red ;
+    -fx-border-color: red;
 }

@@ -67,8 +67,9 @@ public class Database implements Serializable {
 
     /**
      * Helper method to initialize reserved seats based on provided coordinates.
+     *
      * @param reservedSeats The coordinates of reserved seats.
-     * @param seats The boolean matrix representing seat availability.
+     * @param seats         The boolean matrix representing seat availability.
      */
     private void initializeSeats(int[][] reservedSeats, boolean[][] seats) {
         for (int[] seat : reservedSeats) {
@@ -99,6 +100,7 @@ public class Database implements Serializable {
 
     /**
      * Deletes a showing from the system.
+     *
      * @param selectedShowing The showing to delete.
      */
     public void deleteShowing(Showing selectedShowing) {
@@ -108,6 +110,7 @@ public class Database implements Serializable {
     /**
      * Adds or updates a showing in the system.
      * If the showing is new (id is -1), it is added as a new showing.
+     *
      * @param showing The showing to add or update.
      */
     public void addUpdateShowing(Showing showing) {
@@ -137,6 +140,7 @@ public class Database implements Serializable {
 
     /**
      * Adds a selling record to the system.
+     *
      * @param selling The selling record to add.
      */
     public void addSelling(Selling selling) {
@@ -146,8 +150,9 @@ public class Database implements Serializable {
 
     /**
      * Marks a seat as sold for a specific showing.
+     *
      * @param showingId The ID of the showing.
-     * @param seat The coordinates of the seat to mark as sold.
+     * @param seat      The coordinates of the seat to mark as sold.
      */
     public void sellTicket(int showingId, int[] seat) {
         Showing showing = showings.get(showingId);

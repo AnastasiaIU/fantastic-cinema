@@ -56,7 +56,7 @@ public class ShowingsController implements Initializable {
      * Constructor for the ShowingsController.
      *
      * @param database The database instance shared across controllers.
-     * @param root The root VBox container of the scene.
+     * @param root     The root VBox container of the scene.
      */
     public ShowingsController(Database database, VBox root) {
         this.database = database;

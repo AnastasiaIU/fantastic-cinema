@@ -59,8 +59,8 @@ public class SelectSeatsController implements Initializable {
     /**
      * Constructor for the SelectSeatsController.
      *
-     * @param database The shared database instance.
-     * @param root The root layout component.
+     * @param database        The shared database instance.
+     * @param root            The root layout component.
      * @param selectedShowing The showing for which seats are being selected.
      */
     public SelectSeatsController(Database database, VBox root, Showing selectedShowing) {
@@ -232,8 +232,8 @@ public class SelectSeatsController implements Initializable {
     /**
      * Creates a seat button for the given row and column, configuring its state and event handler.
      *
-     * @param seats The seat availability array.
-     * @param row The row index.
+     * @param seats  The seat availability array.
+     * @param row    The row index.
      * @param column The column index.
      * @return The configured Button object representing a seat.
      */

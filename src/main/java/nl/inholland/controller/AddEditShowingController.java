@@ -411,7 +411,7 @@ public class AddEditShowingController implements Initializable {
      * check for that specific showing.
      *
      * @param startDateTime The start date and time of the new or edited showing.
-     * @param duration The duration of the new or edited showing.
+     * @param duration      The duration of the new or edited showing.
      * @return True if the room is available for the given time slot; false if it overlaps with another showing.
      */
     private boolean isRoomAvailable(LocalDateTime startDateTime, LocalTime duration) {

@@ -8,24 +8,27 @@
 <VBox fx:id="root" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <HBox fx:id="header" styleClass="header">
         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@img/logo.png" />
+            <Image url="@img/logo.png"/>
             <HBox.margin>
-                <Insets bottom="12.0" />
+                <Insets bottom="12.0"/>
             </HBox.margin>
         </ImageView>
-        <Label maxWidth="1.7976931348623157E308" styleClass="app-name-label" text="Fantastic Cinema" HBox.hgrow="ALWAYS">
+        <Label maxWidth="1.7976931348623157E308" styleClass="app-name-label" text="Fantastic Cinema"
+               HBox.hgrow="ALWAYS">
             <HBox.margin>
-                <Insets bottom="12.0" />
+                <Insets bottom="12.0"/>
             </HBox.margin>
         </Label>
         <Button fx:id="sellMenuButton" mnemonicParsing="false" styleClass="menu-button" text="Sell tickets">
-         <HBox.margin>
-            <Insets right="2.0" />
-         </HBox.margin></Button>
+            <HBox.margin>
+                <Insets right="2.0"/>
+            </HBox.margin>
+        </Button>
         <Button fx:id="showingsMenuButton" mnemonicParsing="false" styleClass="menu-button" text="Manage showings">
-         <HBox.margin>
-            <Insets right="2.0" />
-         </HBox.margin></Button>
-        <Button fx:id="historyMenuButton" mnemonicParsing="false" styleClass="menu-button" text="View sales history" />
+            <HBox.margin>
+                <Insets right="2.0"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="historyMenuButton" mnemonicParsing="false" styleClass="menu-button" text="View sales history"/>
     </HBox>
 </VBox>

@@ -48,7 +48,7 @@ public class MainController implements Initializable {
     /**
      * Constructor for the MainController.
      *
-     * @param database The database instance shared across controllers, used to access application data.
+     * @param database    The database instance shared across controllers, used to access application data.
      * @param currentUser The database instance shared across controllers.
      */
     public MainController(Database database, User currentUser) {
@@ -71,7 +71,7 @@ public class MainController implements Initializable {
     /**
      * Loads a new scene into the main view based on the provided FXML file and controller.
      *
-     * @param fxmlName The name of the FXML file to load.
+     * @param fxmlName   The name of the FXML file to load.
      * @param controller The controller instance associated with the new view.
      */
     private void loadScene(String fxmlName, Object controller) {

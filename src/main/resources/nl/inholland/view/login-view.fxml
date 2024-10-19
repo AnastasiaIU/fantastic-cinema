@@ -5,16 +5,18 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    <Label styleClass="title-label, login-label" text="Login" />
+    <Label styleClass="title-label, login-label" text="Login"/>
     <VBox styleClass="white-background, spacing-6">
-        <Label text="Username:" />
-        <TextField fx:id="usernameTextField" promptText="Username" />
-        <Label text="Password:" />
+        <Label text="Username:"/>
+        <TextField fx:id="usernameTextField" promptText="Username"/>
+        <Label text="Password:"/>
         <PasswordField fx:id="passwordField" promptText="Password">
-         <VBox.margin>
-            <Insets bottom="6.0" />
-         </VBox.margin></PasswordField>
+            <VBox.margin>
+                <Insets bottom="6.0"/>
+            </VBox.margin>
+        </PasswordField>
     </VBox>
-    <Label fx:id="promptLabel" styleClass="prompt-label" text="Wrong username or password. Please, try again." visible="false" />
-    <Button fx:id="loginButton" mnemonicParsing="false" styleClass="blue-button" text="Login" />
+    <Label fx:id="promptLabel" styleClass="prompt-label" text="Wrong username or password. Please, try again."
+           visible="false"/>
+    <Button fx:id="loginButton" mnemonicParsing="false" styleClass="blue-button" text="Login"/>
 </VBox>
