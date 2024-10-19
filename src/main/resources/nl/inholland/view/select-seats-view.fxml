@@ -11,7 +11,7 @@
         <Label text="Selected showing:"/>
         <Label fx:id="selectedShowingLabel" styleClass="bold-label"/>
     </HBox>
-    <VBox styleClass="white-background, spacing-6" VBox.vgrow="ALWAYS">
+    <VBox styleClass="white-background, spacing-6, padding-16" VBox.vgrow="ALWAYS">
         <HBox fillHeight="false" VBox.vgrow="NEVER">
             <VBox HBox.hgrow="SOMETIMES">
                 <Line fx:id="screenLine" strokeWidth="2.0"/>
@@ -31,8 +31,8 @@
                 </VBox.margin>
             </TextField>
         </VBox>
-        <HBox fillHeight="false" styleClass="spacing-6" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+        <HBox fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              styleClass="spacing-6" VBox.vgrow="NEVER">
             <Button fx:id="sellButton" disable="true" mnemonicParsing="false" styleClass="blue-button"
                     text="Sell ticket(s)" HBox.hgrow="NEVER"/>
             <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="gray-button" text="Cancel"/>
