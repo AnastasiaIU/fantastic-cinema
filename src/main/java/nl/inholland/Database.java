@@ -12,12 +12,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The Database class serves as a mock database for managing users, showings, and ticket sales in the system.
+ * It provides methods for retrieving and manipulating data related to users, showings, and sales.
+ * This class is designed for use in a simulation environment where it manages the state in memory.
+ * Implements {@link Serializable} to allow its instances to be serialized for storage.
+ */
 public class Database implements Serializable {
-
+    // List of users in the system
     private final List<User> users = new ArrayList<>();
+    // List of showings available in the system
     private final List<Showing> showings = new ArrayList<>();
+    // List of sells made in the system
     private final List<Selling> sells = new ArrayList<>();
 
+    /**
+     * Constructs a new Database instance, initializing predefined users, showings, and sells.
+     */
     public Database() {
         // Add some users
         users.add(new User("admin", "admin", AccessLevel.MANAGEMENT));
@@ -54,7 +65,11 @@ public class Database implements Serializable {
         addSells();
     }
 
-    // Helper method to initialize reserved seats based on provided coordinates
+    /**
+     * Helper method to initialize reserved seats based on provided coordinates.
+     * @param reservedSeats The coordinates of reserved seats.
+     * @param seats The boolean matrix representing seat availability.
+     */
     private void initializeSeats(int[][] reservedSeats, boolean[][] seats) {
         for (int[] seat : reservedSeats) {
             seats[seat[0]][seat[1]] = true;
@@ -62,31 +77,39 @@ public class Database implements Serializable {
     }
 
     /**
-     * Returns the list of users.
-     *
-     * @return List of users.
+     * @return List of all users.
      */
     public List<User> getUsers() {
         return users;
     }
 
     /**
-     * Returns the list of showings.
-     *
-     * @return List of showings.
+     * @return List of all showings.
      */
-    public List<Showing> getAllShowings() {
+    public List<Showing> getShowings() {
         return showings;
     }
 
+    /**
+     * @return List of all sales.
+     */
     public List<Selling> getSells() {
         return sells;
     }
 
+    /**
+     * Deletes a showing from the system.
+     * @param selectedShowing The showing to delete.
+     */
     public void deleteShowing(Showing selectedShowing) {
         showings.remove(selectedShowing);
     }
 
+    /**
+     * Adds or updates a showing in the system.
+     * If the showing is new (id is -1), it is added as a new showing.
+     * @param showing The showing to add or update.
+     */
     public void addUpdateShowing(Showing showing) {
         if (showing.getId() == -1) {
             showing.setId(showings.size());
@@ -96,7 +119,10 @@ public class Database implements Serializable {
         }
     }
 
-    public List<Showing> getAllUpcomingShowings() {
+    /**
+     * @return List of upcoming showings based on the current date and time.
+     */
+    public List<Showing> getUpcomingShowings() {
         List<Showing> upcomingShowings = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
 
@@ -109,16 +135,28 @@ public class Database implements Serializable {
         return upcomingShowings;
     }
 
+    /**
+     * Adds a selling record to the system.
+     * @param selling The selling record to add.
+     */
     public void addSelling(Selling selling) {
         selling.setId(sells.size());
         sells.add(selling);
     }
 
+    /**
+     * Marks a seat as sold for a specific showing.
+     * @param showingId The ID of the showing.
+     * @param seat The coordinates of the seat to mark as sold.
+     */
     public void sellTicket(int showingId, int[] seat) {
         Showing showing = showings.get(showingId);
         showing.sellTicket(seat);
     }
 
+    /**
+     * Initializes and adds predefined sales data to the system.
+     */
     private void addSells() {
         sells.add(new Selling(0, LocalDateTime.of(2024, 10, 15, 14, 0), 6, showings.getFirst(), "John Doe", Arrays.asList(
                 new int[]{4, 3},

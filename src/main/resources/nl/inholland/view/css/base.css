@@ -2,6 +2,14 @@
     -fx-background-color: #E5E5E5;
 }
 
+.title-label {
+    -fx-text-fill: #969696;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-padding: 0 0 6 0;
+}
+
+
 .prompt-label {
     -fx-text-fill: red;
 }
@@ -17,19 +25,12 @@
 }
 
 .red-button {
-    -fx-background-color: #C60108;
+    -fx-background-color: red;
     -fx-text-fill: white;
 }
 
 .blue-button:hover, .gray-button:hover, .red-button:hover {
     -fx-opacity: 0.7;
-}
-
-.title-label {
-    -fx-text-fill: #969696;
-    -fx-font-weight: bold;
-    -fx-font-size: 24;
-    -fx-padding: 0 0 6 0;
 }
 
 .bottom-padding-6 {

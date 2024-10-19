@@ -23,13 +23,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the seat selection view in the application.
+ * This class manages the seat selection process, allowing users to select available seats and finalize their selection.
+ * It implements the {@link Initializable} interface to set up the view when the controller is loaded.
+ */
 public class SelectSeatsController implements Initializable {
     // Reference to the shared Database instance
     private final Database database;
+    // Reference to the root VBox container of the scene
     private final VBox root;
+    // Reference to the currently selected showing
     private final Showing selectedShowing;
+    // Observable list to keep track of the chosen seats
     private ObservableList<int[]> chosenSeats;
 
+    // FXML-injected components
     @FXML
     private Label selectedShowingLabel;
     @FXML
@@ -47,12 +56,22 @@ public class SelectSeatsController implements Initializable {
     @FXML
     private Line screenLine;
 
+    /**
+     * Constructor for the SelectSeatsController.
+     *
+     * @param database The shared database instance.
+     * @param root The root layout component.
+     * @param selectedShowing The showing for which seats are being selected.
+     */
     public SelectSeatsController(Database database, VBox root, Showing selectedShowing) {
         this.database = database;
         this.selectedShowing = selectedShowing;
         this.root = root;
     }
 
+    /**
+     * Initializes the controller and sets up the initial state of the seat selection view.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chosenSeats = FXCollections.observableArrayList();
@@ -66,6 +85,11 @@ public class SelectSeatsController implements Initializable {
         addListenerForDrawingScreenLine();
     }
 
+    /**
+     * Draws the screen line relative to the position of the row label.
+     *
+     * @param rowName The label representing the row.
+     */
     private void drawScreenLine(Label rowName) {
         double labelWidth = rowName.getLayoutBounds().getWidth();
         double rowWidth = rowName.getParent().getLayoutBounds().getWidth();
@@ -75,7 +99,9 @@ public class SelectSeatsController implements Initializable {
         VBox.setMargin(screenLabel, new Insets(0, 0, 6, screenLabelX));
     }
 
-    // This method ensure that the screen line is drawn correctly after the scene is shown
+    /**
+     * Adds a listener to draw the screen line after the scene is shown to ensure the line is correctly positioned.
+     */
     private void addListenerForDrawingScreenLine() {
         Label rowName = getRowNameLabel();
         rowName.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -83,7 +109,9 @@ public class SelectSeatsController implements Initializable {
         });
     }
 
-
+    /**
+     * Adds listeners to enable or disable the sell button based on the seat and customer name selections.
+     */
     private void addListenersForDisablingSellButton() {
         chosenSeats.addListener(
                 (javafx.collections.ListChangeListener.Change<? extends int[]> c) -> {
@@ -102,21 +130,11 @@ public class SelectSeatsController implements Initializable {
                     sellButton.setDisable(this.chosenSeats.isEmpty() || newValue.isEmpty());
                 }
         );
-
-        Label rowName = getRowNameLabel();
-        rowName.widthProperty().addListener((observable, oldValue, newValue) -> {
-            drawScreenLine(rowName);
-        });
-
-        sellButton.setOnAction(event -> {
-            addSellToDatabase();
-        });
-
-        cancelButton.setOnAction(event -> {
-            openSellView();
-        });
     }
 
+    /**
+     * Adds action listeners to the sell and cancel buttons.
+     */
     private void addListenersToButtons() {
         sellButton.setOnAction(event -> {
             addSellToDatabase();
@@ -128,6 +146,11 @@ public class SelectSeatsController implements Initializable {
         });
     }
 
+    /**
+     * Retrieves the label representing the row in the seat layout.
+     *
+     * @return The label for the row.
+     */
     private Label getRowNameLabel() {
         Label rowName = null;
 
@@ -145,12 +168,20 @@ public class SelectSeatsController implements Initializable {
         return rowName;
     }
 
+    /**
+     * Formats the selected showing to display the date and title.
+     *
+     * @return A formatted string representing the showing.
+     */
     private String getFormattedSelectedShowing() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String date = formatter.format(selectedShowing.getStartDateTime());
         return date + " " + selectedShowing.getTitle();
     }
 
+    /**
+     * Adds a new sale to the database based on the selected seats and customer name.
+     */
     private void addSellToDatabase() {
         String customerName = customerTextField.getText();
         LocalDateTime now = LocalDateTime.now();
@@ -164,6 +195,9 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
+    /**
+     * Opens the sell view when the user cancels or confirms the seat selection.
+     */
     private void openSellView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/sell-view.fxml"));
@@ -178,6 +212,9 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
+    /**
+     * Displays the available and reserved seats for the selected showing.
+     */
     private void displaySeats() {
         roomSeatsVBox.getChildren().clear();
         boolean[][] seats = selectedShowing.getReservedSeats();
@@ -192,6 +229,14 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
+    /**
+     * Creates a seat button for the given row and column, configuring its state and event handler.
+     *
+     * @param seats The seat availability array.
+     * @param row The row index.
+     * @param column The column index.
+     * @return The configured Button object representing a seat.
+     */
     private Button createSeatButton(boolean[][] seats, int row, int column) {
         Button seatButton = new Button();
         seatButton.setText(String.valueOf(column + 1));
@@ -215,6 +260,12 @@ public class SelectSeatsController implements Initializable {
         return seatButton;
     }
 
+    /**
+     * Creates a row with a label representing the row number.
+     *
+     * @param number The row number.
+     * @return The configured HBox object representing the row.
+     */
     private HBox createRow(int number) {
         HBox rowHBox = new HBox();
         Label rowName = new Label(String.format("Row %d", number));
@@ -224,6 +275,11 @@ public class SelectSeatsController implements Initializable {
         return rowHBox;
     }
 
+    /**
+     * Handles seat selection or deselection when a seat button is clicked.
+     *
+     * @param seatButton The button representing the selected seat.
+     */
     private void selectSeat(Button seatButton) {
         int[] seat = (int[]) seatButton.getUserData();
 
@@ -236,6 +292,9 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
+    /**
+     * Sets the cell factory for the ListView to display selected seats.
+     */
     private void setCellFactory() {
         selectedSeatsListView.setCellFactory(
                 param -> new ListCell<>() {

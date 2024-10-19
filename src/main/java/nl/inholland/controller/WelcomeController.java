@@ -14,9 +14,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the welcome view in the application.
+ * This class displays a welcome message to the user, their role, and continuously updates the current date and time.
+ * It implements the {@link Initializable} interface to set up the view when the controller is loaded.
+ */
 public class WelcomeController implements Initializable {
+    // Reference to the currently logged-in user
     private final User currentUser;
 
+    // FXML-injected components
     @FXML
     private Label welcomeLabel;
     @FXML
@@ -24,16 +31,27 @@ public class WelcomeController implements Initializable {
     @FXML
     private Label currentDateLabel;
 
+    /**
+     * Constructor for the WelcomeController.
+     *
+     * @param currentUser The user currently logged into the application.
+     */
     public WelcomeController(User currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Initializes the controller and sets up the initial state of the welcome view.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateLabels();
     }
 
-    // Method to update labels with user data and current date
+    /**
+     * Updates the labels with user information and the current date and time.
+     * Sets up a {@link Timeline} to refresh the date and time every second.
+     */
     private void updateLabels() {
         // Update welcome label
         welcomeLabel.setText("Welcome " + capitalizeString(currentUser.getUsername()));
@@ -60,6 +78,12 @@ public class WelcomeController implements Initializable {
         timeline.play(); // Start the timeline
     }
 
+    /**
+     * Capitalizes the first letter of the input string while making the rest lowercase.
+     *
+     * @param inputString The input string to be formatted.
+     * @return The formatted string with the first character capitalized and the rest in lowercase.
+     */
     private String capitalizeString(String inputString) {
         String upperCase = inputString.substring(0, 1).toUpperCase();
         String lowerCase = inputString.substring(1).toLowerCase();

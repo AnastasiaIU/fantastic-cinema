@@ -20,16 +20,29 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for adding or editing showings in the application.
+ * This class is responsible for managing the UI and logic when creating a new showing
+ * or editing an existing one. It uses FXML components and binds their values
+ * with the appropriate event handlers to manage user input and validate the showing data.
+ * It implements the {@link Initializable} interface to set up initial values and listeners
+ * for the UI components when the controller is initialized.
+ */
 public class AddEditShowingController implements Initializable {
+    // Pseudo-class for error styling
     private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    // Formatter for date values in dd-MM-yyyy format
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
     // Reference to the shared Database instance
     private final Database database;
+    // Reference to the root VBox container of the scene
     private final VBox root;
+    // The selected showing being edited, or null if adding a new showing
     private final Showing selectedShowing;
+    // Boolean flag to check if the operation is to add a new showing
     private final boolean isAdd;
 
+    // FXML-injected components
     @FXML
     private Label titleLabel;
     @FXML
@@ -40,6 +53,8 @@ public class AddEditShowingController implements Initializable {
     private Label durationDateTimePromptLabel;
     @FXML
     private Label endDateTimeLabel;
+    @FXML
+    private Label roomAvailabilityPromptLabel;
     @FXML
     private TextField titleTextField;
     @FXML
@@ -57,6 +72,13 @@ public class AddEditShowingController implements Initializable {
     @FXML
     private Button cancelButton;
 
+    /**
+     * Constructor for the controller.
+     *
+     * @param database        The database instance shared across controllers.
+     * @param root            The root VBox container of the scene.
+     * @param selectedShowing The showing to be edited; if null, a new showing is being added.
+     */
     public AddEditShowingController(Database database, VBox root, Showing selectedShowing) {
         this.database = database;
         this.root = root;
@@ -64,6 +86,9 @@ public class AddEditShowingController implements Initializable {
         isAdd = selectedShowing == null;
     }
 
+    /**
+     * Initializes the controller and sets up initial values and listeners for the UI components.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleLabel.setText(isAdd ? "Add Showing" : "Edit Showing");
@@ -80,6 +105,9 @@ public class AddEditShowingController implements Initializable {
         addListenersToButtons();
     }
 
+    /**
+     * Sets up the converter for the date picker to format and parse dates according to the set pattern.
+     */
     private void setDatePickerConverter() {
         StringConverter<LocalDate> converter = new StringConverter<>() {
             @Override
@@ -100,6 +128,13 @@ public class AddEditShowingController implements Initializable {
         startDatePicker.setConverter(converter);
     }
 
+    /**
+     * Displays error messages for invalid inputs such as empty title, null start date, or zero duration.
+     *
+     * @param title     The title of the showing.
+     * @param startDate The start date of the showing.
+     * @param duration  The duration of the showing.
+     */
     private void displayErrors(String title, LocalDate startDate, int duration) {
         if (title.isEmpty()) {
             showTitleError(true);
@@ -114,6 +149,14 @@ public class AddEditShowingController implements Initializable {
         }
     }
 
+    /**
+     * Creates or updates a showing based on user inputs.
+     *
+     * @param startDate The start date of the showing.
+     * @param duration  The duration of the showing.
+     * @param title     The title of the showing.
+     * @return The updated or new showing instance.
+     */
     private Showing getShowing(LocalDate startDate, LocalTime duration, String title) {
         Showing showing;
 
@@ -138,6 +181,9 @@ public class AddEditShowingController implements Initializable {
         return showing;
     }
 
+    /**
+     * Opens the showings view, replacing the current scene with the showings list view.
+     */
     private void openShowingsView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl/inholland/view/showings-view.fxml"));
@@ -152,6 +198,12 @@ public class AddEditShowingController implements Initializable {
         }
     }
 
+    /**
+     * Parses a date string into a LocalDate object using the specified date format.
+     *
+     * @param input The date string to parse.
+     * @return The parsed LocalDate or null if parsing fails.
+     */
     private LocalDate tryParseLocalDate(String input) {
         try {
             return LocalDate.parse(input, dateFormatter);
@@ -160,22 +212,55 @@ public class AddEditShowingController implements Initializable {
         }
     }
 
+    /**
+     * Shows or hides the title error based on the input.
+     *
+     * @param show Boolean value to determine whether to show (true) or hide (false) the error indicator.
+     */
     private void showTitleError(boolean show) {
         titlePromptLabel.setVisible(show);
         titleTextField.pseudoClassStateChanged(errorClass, show);
     }
 
+    /**
+     * Shows or hides the start date error based on the input.
+     *
+     * @param show Boolean value to determine whether to show (true) or hide (false) the error indicator.
+     */
     private void showStartDateError(boolean show) {
         startDateTimePromptLabel.setVisible(show);
         startDatePicker.pseudoClassStateChanged(errorClass, show);
     }
 
+    /**
+     * Shows or hides the duration time error based on the input.
+     *
+     * @param show Boolean value to determine whether to show (true) or hide (false) the error indicator.
+     */
     private void showDurationTimeError(boolean show) {
         durationDateTimePromptLabel.setVisible(show);
         durationHoursSpinner.pseudoClassStateChanged(errorClass, show);
         durationMinutesSpinner.pseudoClassStateChanged(errorClass, show);
     }
 
+    /**
+     * Displays or hides the room availability error based on the input.
+     * This method sets the visibility of the room availability prompt label and updates the style
+     * (pseudo-class state) for the DatePicker and Spinner components to indicate an error.
+     *
+     * @param show Boolean value to determine whether to show (true) or hide (false) the error indicator.
+     */
+    private void showRoomAvailabilityError(boolean show) {
+        roomAvailabilityPromptLabel.setVisible(show);
+        startDatePicker.pseudoClassStateChanged(errorClass, show);
+        startHoursSpinner.pseudoClassStateChanged(errorClass, show);
+        startMinutesSpinner.pseudoClassStateChanged(errorClass, show);
+    }
+
+    /**
+     * Updates the end date and time label based on the start date and duration selected by the user.
+     * If the end time is on the next day, the start date is incremented by one day.
+     */
     private void updateEndDateTimeLabel() {
         LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
         LocalTime duration = LocalTime.of(durationHoursSpinner.getValue(), durationMinutesSpinner.getValue());
@@ -203,6 +288,12 @@ public class AddEditShowingController implements Initializable {
         }
     }
 
+    /**
+     * Retrieves the date string from a DatePicker component.
+     *
+     * @param datePicker The DatePicker component from which to retrieve the date string.
+     * @return The formatted date string or the raw editor text if no date is selected.
+     */
     private String getDatePickerString(DatePicker datePicker) {
         LocalDate value = datePicker.getValue();
 
@@ -214,6 +305,9 @@ public class AddEditShowingController implements Initializable {
         return editorText.isEmpty() ? "" : editorText;
     }
 
+    /**
+     * Sets the value factories for the various time and duration spinners based on the state of the showing (add or edit).
+     */
     private void setSpinnerFactories() {
         setSpinnerFactory(startHoursSpinner, 23, isAdd ? null : selectedShowing.getStartDateTime().getHour());
         setSpinnerFactory(startMinutesSpinner, 59, isAdd ? null : selectedShowing.getStartDateTime().getMinute());
@@ -221,6 +315,13 @@ public class AddEditShowingController implements Initializable {
         setSpinnerFactory(durationMinutesSpinner, 59, isAdd ? null : selectedShowing.getDuration().getMinute());
     }
 
+    /**
+     * Sets up the value factory for a Spinner component, with an optional initial value.
+     *
+     * @param spinner      The Spinner component for which to set the value factory.
+     * @param max          The maximum value allowed for the spinner.
+     * @param initialValue The initial value to set, or null if no initial value is provided.
+     */
     private void setSpinnerFactory(Spinner<Integer> spinner, int max, Integer initialValue) {
         spinner.setValueFactory(
                 initialValue == null
@@ -229,12 +330,18 @@ public class AddEditShowingController implements Initializable {
         );
     }
 
+    /**
+     * Fills the UI components with data from the selected showing if editing an existing showing.
+     */
     private void fillShowingData() {
         titleTextField.setText(selectedShowing.getTitle());
         startDatePicker.setValue(selectedShowing.getStartDateTime().toLocalDate());
         updateEndDateTimeLabel();
     }
 
+    /**
+     * Sets listeners on UI components to clear error indicators when the user changes input values.
+     */
     private void setListenersToRefreshAfterError() {
         titleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             showTitleError(false);
@@ -242,14 +349,17 @@ public class AddEditShowingController implements Initializable {
 
         startDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             showStartDateError(false);
+            showRoomAvailabilityError(false);
             updateEndDateTimeLabel();
         });
 
         startHoursSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            showRoomAvailabilityError(false);
             updateEndDateTimeLabel();
         });
 
         startMinutesSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            showRoomAvailabilityError(false);
             updateEndDateTimeLabel();
         });
 
@@ -264,6 +374,9 @@ public class AddEditShowingController implements Initializable {
         });
     }
 
+    /**
+     * Adds action listeners to the confirm and cancel buttons to handle user input and actions.
+     */
     private void addListenersToButtons() {
         confirmButton.setOnAction(event -> {
             String title = titleTextField.getText();
@@ -274,15 +387,51 @@ public class AddEditShowingController implements Initializable {
             displayErrors(title, startDate, durationInMinutes);
 
             if (!title.isEmpty() && startDate != null && durationInMinutes != 0) {
-                Showing showing = getShowing(startDate, duration, title);
+                LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue()));
 
-                database.addUpdateShowing(showing);
-                openShowingsView();
+                if (isRoomAvailable(startDateTime, duration)) {
+                    Showing showing = getShowing(startDate, duration, title);
+                    database.addUpdateShowing(showing);
+                    openShowingsView();
+                } else {
+                    // Display an error message if the room is not available
+                    showRoomAvailabilityError(true);
+                }
             }
         });
 
         cancelButton.setOnAction(event -> {
             openShowingsView();
         });
+    }
+
+    /**
+     * Checks if the room is available for a new showing by verifying the time slot does not overlap
+     * with any existing showings in the database. If an existing showing is being edited, it skips the
+     * check for that specific showing.
+     *
+     * @param startDateTime The start date and time of the new or edited showing.
+     * @param duration The duration of the new or edited showing.
+     * @return True if the room is available for the given time slot; false if it overlaps with another showing.
+     */
+    private boolean isRoomAvailable(LocalDateTime startDateTime, LocalTime duration) {
+        LocalDateTime endDateTime = startDateTime.plusHours(duration.getHour()).plusMinutes(duration.getMinute());
+
+        for (Showing existingShowing : database.getShowings()) {
+            // Skip the current showing if editing
+            if (selectedShowing != null && existingShowing.getId() == selectedShowing.getId()) {
+                continue;
+            }
+
+            LocalDateTime existingStart = existingShowing.getStartDateTime();
+            LocalDateTime existingEnd = existingStart.plusHours(existingShowing.getDuration().getHour())
+                    .plusMinutes(existingShowing.getDuration().getMinute());
+
+            // Check if the new showing's time overlaps with any existing showing's time
+            if (startDateTime.isBefore(existingEnd) && endDateTime.isAfter(existingStart)) {
+                return false; // Room is not available
+            }
+        }
+        return true; // Room is available
     }
 }

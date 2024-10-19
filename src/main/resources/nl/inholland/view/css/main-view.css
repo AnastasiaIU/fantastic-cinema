@@ -5,6 +5,29 @@
     -fx-pref-height: 550;
 }
 
+#selectedLabel {
+    -fx-padding: 0 0 12 6;
+}
+
+#errorLabel {
+    -fx-padding: 12 0 12 0;
+}
+
+#customerTextField {
+    -fx-pref-width: 350;
+    -fx-min-width: 350;
+    -fx-max-width: 350;
+}
+
+#titleTextField {
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
+}
+
+#selectedSeatsListView {
+    -fx-border-color: #797979;
+}
+
 .header {
     -fx-background-color: #000000;
     -fx-alignment: bottom-left;
@@ -57,10 +80,6 @@
     -fx-font-weight: bold;
 }
 
-#selectedLabel {
-    -fx-padding: 0 0 12 6;
-}
-
 .row-name {
     -fx-padding: 0 16 0 0;
     -fx-pref-height: 40;
@@ -95,27 +114,8 @@
     -fx-opacity: 0.7;
 }
 
-#customerTextField {
-    -fx-pref-width: 350;
-    -fx-min-width: 350;
-    -fx-max-width: 350;
-}
-
-#selectedSeatsListView {
-    -fx-border-color: #797979;
-}
-
-#titleTextField {
-    -fx-pref-width: 300;
-    -fx-max-width: 300;
-}
-
 .pref-height-25 {
     -fx-pref-height: 25;
-}
-
-#errorLabel {
-    -fx-padding: 12 0 12 0;
 }
 
 .time-spinner {

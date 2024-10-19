@@ -3,32 +3,19 @@ package nl.inholland.model;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class User implements Serializable {
+/**
+ * The User record represents a user in the system.
+ * It stores the user's credentials and access level, and it implements {@link Serializable}
+ * to allow instances to be serialized for storage or transmission.
+ * This record is an immutable data structure, meaning its fields cannot be modified after initialization.
+ */
+public record User(String username, String password, AccessLevel accessLevel) implements Serializable {
+    // This constant is used to keep track of the version
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String username;
-    private String password;
-    private AccessLevel accessLevel;
-
-    public User(String username, String password, AccessLevel accessLevel) {
-        this.username = username;
-        this.password = password;
-        this.accessLevel = accessLevel;
-    }
-
-    // Getter for username
-    public String getUsername() {
-        return username;
-    }
-
-    // Getter for password
-    public String getPassword() {
-        return password;
-    }
-
-    // Getter for accessLevel
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
+    // Getter methods for the class fields
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public AccessLevel getAccessLevel() { return accessLevel; }
 }
