@@ -6,34 +6,37 @@
 
 <VBox styleClass="padding-16" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <Label fx:id="titleLabel" styleClass="title-label" />
-    <Label styleClass="bottom-padding-6" text="Title:" />
-    <HBox styleClass="bottom-padding-16" VBox.vgrow="NEVER">
-        <TextField fx:id="titleTextField" promptText="Title" />
-        <Label fx:id="titlePromptLabel" styleClass="left-padding-16, prompt-label, pref-height-25" text="Title cannot be empty." visible="false" />
-    </HBox>
-    <Label styleClass="bottom-padding-6" text="Start date and time:" />
-    <HBox styleClass="bottom-padding-16, spacing-6">
-        <DatePicker fx:id="startDatePicker" promptText="DD-MM-YYYY" />
-        <Label styleClass="left-padding-6, pref-height-25" text="Hours:" />
-        <Spinner fx:id="startHoursSpinner" styleClass="time-spinner" />
-        <Label styleClass="left-padding-6, pref-height-25" text="Minutes:" />
-        <Spinner fx:id="startMinutesSpinner" styleClass="time-spinner" />
-        <Label fx:id="startDateTimePromptLabel" styleClass="left-padding-16, prompt-label, pref-height-25" text="Wrong input. Please, follow the DD-MM-YYYY format." visible="false" />
-    </HBox>
-    <Label styleClass="bottom-padding-6" text="Duration:" />
-    <HBox styleClass="bottom-padding-16, spacing-6" VBox.vgrow="NEVER">
-        <Label styleClass="pref-height-25" text="Hours:" />
-        <Spinner fx:id="durationHoursSpinner" styleClass="time-spinner" />
-        <Label styleClass="left-padding-6, pref-height-25" text="Minutes:" />
-        <Spinner fx:id="durationMinutesSpinner" styleClass="time-spinner" />
-        <Label fx:id="durationDateTimePromptLabel" styleClass="left-padding-16, prompt-label, pref-height-25" text="Duration cannot be 0." visible="false" />
-    </HBox>
-    <Label styleClass="bottom-padding-6" text="End date and time:" />
-    <Label fx:id="endDateTimeLabel" styleClass="bottom-padding-16" text="DD-MM-YYYY HH:MM" />
+    <VBox styleClass="white-background">
+        <Label styleClass="bottom-padding-6" text="Title:" />
+        <HBox styleClass="bottom-padding-16" VBox.vgrow="NEVER">
+            <TextField fx:id="titleTextField" promptText="Title" />
+            <Label fx:id="titlePromptLabel" styleClass="left-padding-6, prompt-label, pref-height-25" text="Title cannot be empty." visible="false" />
+        </HBox>
+        <Label styleClass="bottom-padding-6" text="Start date and time:" />
+        <HBox styleClass="bottom-padding-16, spacing-6">
+            <DatePicker fx:id="startDatePicker" promptText="DD-MM-YYYY" />
+            <Label styleClass="left-padding-6, pref-height-25" text="Hours:" />
+            <Spinner fx:id="startHoursSpinner" styleClass="time-spinner" />
+            <Label styleClass="left-padding-6, pref-height-25" text="Minutes:" />
+            <Spinner fx:id="startMinutesSpinner" styleClass="time-spinner" />
+            <Label fx:id="startDateTimePromptLabel" styleClass="left-padding-6, prompt-label, pref-height-25" text="Wrong input. Please, follow the DD-MM-YYYY format." visible="false" />
+        </HBox>
+        <Label styleClass="bottom-padding-6" text="Duration:" />
+        <HBox styleClass="bottom-padding-16, spacing-6" VBox.vgrow="NEVER">
+            <Label styleClass="pref-height-25" text="Hours:" />
+            <Spinner fx:id="durationHoursSpinner" styleClass="time-spinner" />
+            <Label styleClass="left-padding-6, pref-height-25" text="Minutes:" />
+            <Spinner fx:id="durationMinutesSpinner" styleClass="time-spinner" />
+            <Label fx:id="durationDateTimePromptLabel" styleClass="left-padding-6, prompt-label, pref-height-25" text="Duration cannot be 0." visible="false" />
+        </HBox>
+        <Label styleClass="bottom-padding-6" text="End date and time:" />
+        <Label fx:id="endDateTimeLabel" styleClass="bottom-padding-6" text="DD-MM-YYYY HH:MM" />
+    </VBox>
     <Label fx:id="roomAvailabilityPromptLabel" styleClass="prompt-label" text="The selected time slot overlaps with an existing showing. Please choose another time." visible="false">
-      <VBox.margin>
-         <Insets bottom="12.0" top="12.0" />
-      </VBox.margin></Label>
+        <VBox.margin>
+            <Insets bottom="12.0" top="12.0" />
+        </VBox.margin>
+    </Label>
     <HBox styleClass="spacing-6">
         <Button fx:id="confirmButton" mnemonicParsing="false" styleClass="blue-button" />
         <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="gray-button" text="Cancel" />

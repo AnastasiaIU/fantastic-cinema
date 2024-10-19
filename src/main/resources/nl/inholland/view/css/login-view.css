@@ -8,7 +8,7 @@
 }
 
 .login-label {
-    -fx-padding: 15 0 20 0;
+    -fx-padding: 16 0 16 0;
 }
 
 #usernameTextField, #passwordField {
@@ -20,5 +20,5 @@
 }
 
 #promptLabel {
-    -fx-padding: 10 0 10 0;
+    -fx-padding: 6 0 6 0;
 }

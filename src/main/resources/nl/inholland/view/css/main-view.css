@@ -70,11 +70,6 @@
     -fx-padding: 0 0 6 0;
 }
 
-.white-background {
-    -fx-background-color: #FFFFFF;
-    -fx-padding: 12;
-}
-
 .bold-label {
     -fx-font-size: 12;
     -fx-font-weight: bold;

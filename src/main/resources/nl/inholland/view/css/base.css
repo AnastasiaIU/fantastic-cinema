@@ -9,6 +9,10 @@
     -fx-padding: 0 0 6 0;
 }
 
+.white-background {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 12;
+}
 
 .prompt-label {
     -fx-text-fill: red;
