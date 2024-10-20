@@ -36,8 +36,8 @@ public class Database implements Serializable {
 
         // Create reserved seats
         int[][] reservedSeats10 = new int[][]{
-                {0, 1}, {0, 4}, {1, 2}, {1, 5}, {2, 3},
-                {3, 6}, {3, 8}, {4, 1}, {5, 5}, {5, 9}
+                {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, {0, 8},
+                {5, 4}, {5, 5}, {5, 6}, {5, 7}
         };
         int[][] reservedSeats52 = new int[][]{
                 {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}, {0, 8}, {0, 9}, {0, 10}, {0, 11},
@@ -164,84 +164,84 @@ public class Database implements Serializable {
      */
     private void addSells() {
         sells.add(new Selling(0, LocalDateTime.of(2024, 9, 16, 16, 30), 6, showings.get(2), "Jane Smith", Arrays.asList(
+                new int[]{0, 0},
+                new int[]{0, 1},
+                new int[]{0, 2},
+                new int[]{0, 3},
+                new int[]{0, 4},
+                new int[]{0, 5}
+        )));
+        sells.add(new Selling(1, LocalDateTime.of(2024, 9, 17, 18, 0), 8, showings.get(2), "Alex Johnson", Arrays.asList(
+                new int[]{0, 6},
+                new int[]{0, 7},
+                new int[]{0, 8},
+                new int[]{0, 9},
+                new int[]{0, 10},
+                new int[]{0, 11},
+                new int[]{1, 0},
+                new int[]{1, 1}
+        )));
+        sells.add(new Selling(2, LocalDateTime.of(2024, 9, 18, 20, 0), 5, showings.get(2), "Emily Brown", Arrays.asList(
+                new int[]{1, 2},
                 new int[]{1, 3},
                 new int[]{1, 4},
                 new int[]{1, 5},
-                new int[]{1, 6},
-                new int[]{1, 7},
-                new int[]{1, 8}
+                new int[]{1, 6}
         )));
-        sells.add(new Selling(1, LocalDateTime.of(2024, 9, 17, 18, 0), 8, showings.get(1), "Alex Johnson", Arrays.asList(
-                new int[]{2, 1},
+        sells.add(new Selling(3, LocalDateTime.of(2024, 9, 19, 14, 30), 7, showings.get(2), "Michael Lee", Arrays.asList(
+                new int[]{1, 7},
+                new int[]{1, 8},
+                new int[]{1, 9},
+                new int[]{1, 10},
+                new int[]{1, 11},
+                new int[]{2, 0},
+                new int[]{2, 1}
+        )));
+        sells.add(new Selling(4, LocalDateTime.of(2024, 9, 20, 15, 0), 10, showings.get(2), "Olivia Davis", Arrays.asList(
                 new int[]{2, 2},
                 new int[]{2, 3},
                 new int[]{2, 4},
                 new int[]{2, 5},
                 new int[]{2, 6},
                 new int[]{2, 7},
-                new int[]{2, 8}
+                new int[]{2, 8},
+                new int[]{2, 9},
+                new int[]{2, 10},
+                new int[]{2, 11}
         )));
-        sells.add(new Selling(2, LocalDateTime.of(2024, 9, 18, 20, 0), 5, showings.getFirst(), "Emily Brown", Arrays.asList(
-                new int[]{3, 1},
-                new int[]{3, 2},
-                new int[]{3, 3},
-                new int[]{3, 4},
-                new int[]{3, 5}
-        )));
-        sells.add(new Selling(3, LocalDateTime.of(2024, 9, 19, 14, 30), 7, showings.get(1), "Michael Lee", Arrays.asList(
-                new int[]{4, 2},
-                new int[]{4, 3},
-                new int[]{4, 4},
-                new int[]{4, 5},
-                new int[]{4, 6},
-                new int[]{4, 7},
-                new int[]{4, 8}
-        )));
-        sells.add(new Selling(4, LocalDateTime.of(2024, 9, 20, 15, 0), 10, showings.getFirst(), "Olivia Davis", Arrays.asList(
-                new int[]{5, 1},
-                new int[]{5, 2},
-                new int[]{5, 3},
-                new int[]{5, 4},
-                new int[]{5, 5},
-                new int[]{5, 6},
-                new int[]{5, 7},
-                new int[]{5, 8},
-                new int[]{5, 9},
-                new int[]{5, 10}
-        )));
-        sells.add(new Selling(5, LocalDateTime.of(2024, 9, 21, 19, 0), 8, showings.get(2), "Sophia Martinez", Arrays.asList(
-                new int[]{0, 2},
+        sells.add(new Selling(5, LocalDateTime.of(2024, 9, 21, 19, 0), 6, showings.getFirst(), "Sophia Martinez", Arrays.asList(
                 new int[]{0, 3},
                 new int[]{0, 4},
                 new int[]{0, 5},
                 new int[]{0, 6},
                 new int[]{0, 7},
-                new int[]{0, 8},
-                new int[]{0, 9}
+                new int[]{0, 8}
         )));
-        sells.add(new Selling(6, LocalDateTime.of(2024, 9, 22, 12, 0), 8, showings.getFirst(), "Liam Wilson", Arrays.asList(
-                new int[]{1, 9},
-                new int[]{1, 10},
-                new int[]{1, 11},
-                new int[]{2, 9},
-                new int[]{2, 10},
-                new int[]{2, 11},
+        sells.add(new Selling(6, LocalDateTime.of(2024, 9, 22, 12, 0), 9, showings.get(2), "Liam Wilson", Arrays.asList(
+                new int[]{3, 0},
+                new int[]{3, 1},
+                new int[]{3, 2},
+                new int[]{3, 3},
+                new int[]{3, 4},
+                new int[]{3, 5},
+                new int[]{3, 6},
+                new int[]{3, 7},
+                new int[]{3, 8}
+        )));
+        sells.add(new Selling(7, LocalDateTime.of(2024, 10, 15, 14, 0), 7, showings.get(2), "John Doe", Arrays.asList(
                 new int[]{3, 9},
-                new int[]{3, 10}
-        )));
-        sells.add(new Selling(7, LocalDateTime.of(2024, 10, 15, 14, 0), 6, showings.getFirst(), "John Doe", Arrays.asList(
+                new int[]{4, 0},
+                new int[]{4, 1},
+                new int[]{4, 2},
                 new int[]{4, 3},
                 new int[]{4, 4},
-                new int[]{4, 5},
-                new int[]{4, 6},
-                new int[]{4, 7},
-                new int[]{4, 8}
+                new int[]{5, 0}
         )));
         sells.add(new Selling(8, LocalDateTime.of(2024, 10, 20, 11, 0), 4, showings.getFirst(), "Jane Doe", Arrays.asList(
-                new int[]{5, 3},
                 new int[]{5, 4},
                 new int[]{5, 5},
-                new int[]{5, 6}
+                new int[]{5, 6},
+                new int[]{5, 7}
         )));
     }
 }
