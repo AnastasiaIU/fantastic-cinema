@@ -46,21 +46,46 @@ public class LoginController implements Initializable {
     }
 
     /**
-     * Initializes the controller and sets up the login button action.
+     * Initializes the controller and sets up the login action when the login button is pressed or when the Enter key
+     * is pressed within the username or password fields.
      * This method is called automatically after the FXML file is loaded.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loginButton.setOnAction(event -> {
-            promptLabel.setVisible(false);
-
-            String username = usernameTextField.getText();
-            String password = passwordField.getText();
-
-            User user = login(username, password);
-
-            showMainView(user);
+            attemptLogin();
         });
+
+        usernameTextField.setOnKeyPressed(event -> {
+            if (event.getCode().getName().equals("Enter")) {
+                attemptLogin();
+            }
+        });
+
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode().getName().equals("Enter")) {
+                attemptLogin();
+            }
+        });
+    }
+
+    /**
+     * Attempts to log in a user based on the input provided in the username and password fields.
+     * This method retrieves the username and password entered by the user, validates them by calling
+     * the {@link #login(String, String)} method, and proceeds to show the main view if the credentials are correct.
+     * If the credentials are invalid, the prompt label is set visible to indicate an error.
+     * This method is intended to be reused when the login button is pressed or when the Enter key
+     * is pressed within the username or password fields.
+     */
+    private void attemptLogin() {
+        promptLabel.setVisible(false);
+
+        String username = usernameTextField.getText();
+        String password = passwordField.getText();
+
+        User user = login(username, password);
+
+        showMainView(user);
     }
 
     /**

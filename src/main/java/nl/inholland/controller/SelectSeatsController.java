@@ -115,7 +115,7 @@ public class SelectSeatsController implements Initializable {
     private void addListenersForDisablingSellButton() {
         chosenSeats.addListener(
                 (javafx.collections.ListChangeListener.Change<? extends int[]> c) -> {
-                    sellButton.setDisable(this.chosenSeats.isEmpty() || customerTextField.getText().isEmpty());
+                    sellButton.setDisable(this.chosenSeats.isEmpty() || customerTextField.getText().trim().isEmpty());
 
                     if (this.chosenSeats.isEmpty()) {
                         sellButton.setText("Sell ticket(s)");
@@ -127,7 +127,7 @@ public class SelectSeatsController implements Initializable {
 
         customerTextField.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    sellButton.setDisable(this.chosenSeats.isEmpty() || newValue.isEmpty());
+                    sellButton.setDisable(this.chosenSeats.isEmpty() || newValue.trim().isEmpty());
                 }
         );
     }
@@ -183,7 +183,7 @@ public class SelectSeatsController implements Initializable {
      * Adds a new sale to the database based on the selected seats and customer name.
      */
     private void addSellToDatabase() {
-        String customerName = customerTextField.getText();
+        String customerName = customerTextField.getText().trim();
         LocalDateTime now = LocalDateTime.now();
         int ticketsSold = chosenSeats.size();
         Selling selling = new Selling(-1, now, ticketsSold, selectedShowing, customerName, new ArrayList<>(chosenSeats));

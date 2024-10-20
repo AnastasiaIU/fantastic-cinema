@@ -379,7 +379,7 @@ public class AddEditShowingController implements Initializable {
      */
     private void addListenersToButtons() {
         confirmButton.setOnAction(event -> {
-            String title = titleTextField.getText();
+            String title = titleTextField.getText().trim();
             LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
             LocalTime duration = LocalTime.of(durationHoursSpinner.getValue(), durationMinutesSpinner.getValue());
             int durationInMinutes = duration.getHour() + duration.getMinute();
