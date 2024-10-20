@@ -16,7 +16,6 @@ The application supports various screen sizes and resolution scaling but may not
 
 If labels appear incorrectly, like in the example below, set your system font size to 100% and retest the app.
 
-![photo_2024-10-20_01-02-48](https://github.com/user-attachments/assets/dbb573b1-1f9a-4a45-abb7-fb71200ab078)
-
+<img src="assets/screenshot.jpg"/>
 
 This issue is outside the scope of the assignment and was not addressed due to time constraints.
