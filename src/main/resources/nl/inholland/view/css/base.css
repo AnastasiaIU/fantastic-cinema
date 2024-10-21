@@ -64,3 +64,7 @@
 .padding-16 {
     -fx-padding: 16;
 }
+
+.vertical-padding-16 {
+    -fx-padding: 16 0 16 0;
+}

@@ -192,7 +192,7 @@ public class SelectSeatsController implements Initializable {
         Stage mainStage = (Stage) root.getScene().getWindow();
 
         if (selling.getShowing().getIsAgeChecked()) {
-            AgeCheckController ageCheckController = new AgeCheckController(database, selling);
+            AgeCheckController ageCheckController = new AgeCheckController(selling);
             boolean isConfirmed = ageCheckController.showDialog(mainStage);
 
             if (isConfirmed) {
@@ -205,6 +205,13 @@ public class SelectSeatsController implements Initializable {
         }
     }
 
+    /**
+     * Processes the ticket selling operation for a given showing.
+     * This method adds the selling information to the database and marks each chosen seat as reserved.
+     *
+     * @param selling The {@link Selling} object containing details of the transaction, such as the customer name,
+     *                number of tickets sold, and showing information.
+     */
     public void sellTickets(Selling selling) {
         database.addSelling(selling);
 

@@ -6,23 +6,25 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Button?>
 <VBox styleClass="padding-16, spacing-6" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    <HBox styleClass="spacing-6">
-        <Label text="Movie:"/>
-        <Label fx:id="titleLabel" styleClass="bold-label"/>
-    </HBox>
-    <HBox styleClass="spacing-6">
-        <Label text="Date and time:"/>
-        <Label fx:id="dateTimeLabel" styleClass="bold-label"/>
-    </HBox>
-    <HBox styleClass="spacing-6">
-        <Label text="Number of tickets:"/>
-        <Label fx:id="numberOfTicketsLabel" styleClass="bold-label"/>
-    </HBox>
-    <HBox styleClass="spacing-6">
-        <Label text="Customer name:"/>
-        <Label fx:id="customerNameLabel" styleClass="bold-label"/>
-    </HBox>
-    <CheckBox fx:id="ageCheckBox"
+    <VBox styleClass="white-background, padding-16, spacing-6">
+        <HBox styleClass="spacing-6">
+            <Label text="Movie:"/>
+            <Label fx:id="titleLabel" styleClass="bold-label"/>
+        </HBox>
+        <HBox styleClass="spacing-6">
+            <Label text="Date and time:"/>
+            <Label fx:id="dateTimeLabel" styleClass="bold-label"/>
+        </HBox>
+        <HBox styleClass="spacing-6">
+            <Label text="Number of tickets:"/>
+            <Label fx:id="numberOfTicketsLabel" styleClass="bold-label"/>
+        </HBox>
+        <HBox styleClass="spacing-6">
+            <Label text="Customer name:"/>
+            <Label fx:id="customerNameLabel" styleClass="bold-label"/>
+        </HBox>
+    </VBox>
+    <CheckBox fx:id="ageCheckBox" styleClass="vertical-padding-16"
               text="I have checked the ID card and confirmed that the customer is at least 16 years old."/>
     <HBox styleClass="spacing-6">
         <Button fx:id="confirmButton" disable="true" mnemonicParsing="false" styleClass="blue-button"

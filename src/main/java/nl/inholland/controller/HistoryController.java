@@ -23,7 +23,8 @@ import java.util.ResourceBundle;
  */
 public class HistoryController implements Initializable {
     // Formatter for date and time values in dd-MM-yyyy HH:mm format
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
     // Reference to the shared Database instance
     private final Database database;
 
@@ -64,7 +65,7 @@ public class HistoryController implements Initializable {
      */
     private void setCellValueFactory() {
         dateTimeColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getDateTime().format(formatter))
+                c -> new SimpleStringProperty(c.getValue().getDateTime().format(FORMATTER))
         );
         showingColumn.setCellValueFactory(
                 c -> new SimpleStringProperty(getFormattedSelectedShowing(c.getValue().getShowing()))
@@ -79,8 +80,8 @@ public class HistoryController implements Initializable {
      */
     private void setComparatorForDateTimeColumn() {
         dateTimeColumn.setComparator((date1, date2) -> {
-            LocalDateTime dt1 = LocalDateTime.parse(date1, formatter);
-            LocalDateTime dt2 = LocalDateTime.parse(date2, formatter);
+            LocalDateTime dt1 = LocalDateTime.parse(date1, FORMATTER);
+            LocalDateTime dt2 = LocalDateTime.parse(date2, FORMATTER);
             return dt1.compareTo(dt2);
         });
     }
@@ -93,7 +94,7 @@ public class HistoryController implements Initializable {
      * @return A formatted string containing the start date and title of the showing.
      */
     private String getFormattedSelectedShowing(Showing showing) {
-        String date = formatter.format(showing.getStartDateTime());
+        String date = FORMATTER.format(showing.getStartDateTime());
         return date + " " + showing.getTitle();
     }
 }

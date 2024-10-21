@@ -17,6 +17,7 @@ import java.util.Objects;
 public class MainApplication extends Application {
     // Path to the serialized file where the database state is stored
     private static final String DATABASE_FILE = "database.ser";
+
     // Instance of the Database class used for storing application data
     private Database database;
 

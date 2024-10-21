@@ -25,13 +25,14 @@ import java.util.ResourceBundle;
  * the view when the controller is loaded.
  */
 public class MainController implements Initializable {
+    // Pseudo-classes used to style the active and inactive menu buttons
+    private final PseudoClass ACTIVE_CLASS = PseudoClass.getPseudoClass("active");
+    private final PseudoClass INACTIVE_CLASS = PseudoClass.getPseudoClass("inactive");
+
     // Reference to the shared Database instance
     private final Database database;
     // Reference to the currently logged-in user
     private final User currentUser;
-    // Pseudo-classes used to style the active and inactive menu buttons
-    private final PseudoClass activeClass = PseudoClass.getPseudoClass("active");
-    private final PseudoClass inactiveClass = PseudoClass.getPseudoClass("inactive");
 
     // FXML-injected components
     @FXML
@@ -112,8 +113,8 @@ public class MainController implements Initializable {
         for (Node node : header.getChildren()) {
             if (node instanceof Button) {
                 node.setDisable(node == clickedMenu);
-                node.pseudoClassStateChanged(activeClass, node == clickedMenu);
-                node.pseudoClassStateChanged(inactiveClass, node != clickedMenu);
+                node.pseudoClassStateChanged(ACTIVE_CLASS, node == clickedMenu);
+                node.pseudoClassStateChanged(INACTIVE_CLASS, node != clickedMenu);
             }
         }
 

@@ -81,6 +81,14 @@ public class SellController implements Initializable {
         addSearchListener(showings);
     }
 
+    /**
+     * Adds a listener to the search text field to filter the list of showings based on the user's input.
+     * This method updates the displayed list of showings in the TableView as the user types in the search field.
+     * If the user types fewer than 3 characters, all showings are displayed. If the input has 3 or more characters,
+     * the method filters the showings to only display those whose titles contain the input text, ignoring case.
+     *
+     * @param allShowings The complete list of all available {@link Showing} objects.
+     */
     private void addSearchListener(ObservableList<Showing> allShowings) {
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             // If the search input has less than 3 characters, show all showings

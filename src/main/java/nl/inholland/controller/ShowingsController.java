@@ -29,7 +29,8 @@ import java.util.ResourceBundle;
  */
 public class ShowingsController implements Initializable {
     // Formatter for date and time values in dd-MM-yyyy HH:mm format
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
     // Reference to the shared Database instance
     private final Database database;
     // Reference to the root VBox container of the scene
@@ -87,10 +88,10 @@ public class ShowingsController implements Initializable {
      */
     private void setCellValueFactories() {
         startColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(formatter))
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(FORMATTER))
         );
         endColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(FORMATTER))
         );
         seatsLeftColumn.setCellValueFactory(
                 c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getNumberOfSeats())
@@ -117,8 +118,8 @@ public class ShowingsController implements Initializable {
     private void setComparatorForColumn(TableColumn<Showing, String> column) {
         column.setComparator((date1, date2) -> {
             // Parse the date strings into LocalDateTime objects using the formatter
-            LocalDateTime dt1 = LocalDateTime.parse(date1, formatter);
-            LocalDateTime dt2 = LocalDateTime.parse(date2, formatter);
+            LocalDateTime dt1 = LocalDateTime.parse(date1, FORMATTER);
+            LocalDateTime dt2 = LocalDateTime.parse(date2, FORMATTER);
             // Compare the parsed LocalDateTime objects
             return dt1.compareTo(dt2);
         });
@@ -175,6 +176,11 @@ public class ShowingsController implements Initializable {
         exportShowingButton.setOnAction(event -> exportShowingsToCSV());
     }
 
+    /**
+     * Opens a FileChooser dialog to allow the user to save the showings data as a CSV file.
+     * The method configures the FileChooser to accept only files with a .csv extension.
+     * If the user selects a file, it proceeds to write the showings data into the selected file.
+     */
     private void exportShowingsToCSV() {
         // Configure the FileChooser
         FileChooser fileChooser = new FileChooser();
@@ -189,6 +195,13 @@ public class ShowingsController implements Initializable {
         }
     }
 
+    /**
+     * Writes the showings data to the specified file in CSV format.
+     * The method iterates through all the showings in the database and writes each showing's details
+     * (start date and time, end date and time, movie title, and available seats) to the file in a structured format.
+     *
+     * @param file The file where the CSV data will be written.
+     */
     private void writeShowingsToCSV(File file) {
         try (FileWriter writer = new FileWriter(file)) {
             // Write the data for each showing

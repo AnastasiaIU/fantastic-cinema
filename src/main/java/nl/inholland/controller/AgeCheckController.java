@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import nl.inholland.Database;
 import nl.inholland.model.Selling;
 
 import java.io.IOException;
@@ -17,15 +16,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the age verification view in the application.
+ * This class manages the confirmation dialog that asks the user to verify the age of the customer
+ * before proceeding with a sale. It uses FXML components to display customer and showing information
+ * and allows the user to confirm or cancel the action.
+ * Implements the {@link Initializable} interface to set up the view when the controller is loaded.
+ */
 public class AgeCheckController implements Initializable {
     // Formatter for date and time values in dd-MM-yyyy HH:mm format
     private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-    // Reference to the shared Database instance
-    private final Database database;
     // Reference to the currently selected showing
     private final Selling selling;
+    // Represents the stage of the confirmation dialog, used to display the dialog window
     private Stage dialogStage;
+    // Flag to indicate if the user has confirmed the action. True if confirmed, false otherwise
     private boolean confirmed;
 
     // FXML-injected components
@@ -44,8 +50,12 @@ public class AgeCheckController implements Initializable {
     @FXML
     private Button cancelButton;
 
-    public AgeCheckController(Database database, Selling selectedShowing) {
-        this.database = database;
+    /**
+     * Constructor for the AgeCheckController.
+     *
+     * @param selectedShowing The selling instance that needs age confirmation.
+     */
+    public AgeCheckController(Selling selectedShowing) {
         this.selling = selectedShowing;
         this.confirmed = false; // Initialize as false by default
     }
@@ -64,6 +74,10 @@ public class AgeCheckController implements Initializable {
         addListenersToButtons();
     }
 
+    /**
+     * Adds a listener to the ageCheckBox to disable or enable the confirm button
+     * based on whether the checkbox is selected.
+     */
     private void addListenerForDisablingConfirmButton() {
         ageCheckBox.selectedProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -87,6 +101,12 @@ public class AgeCheckController implements Initializable {
         });
     }
 
+    /**
+     * Displays the age confirmation dialog and waits for user interaction.
+     *
+     * @param parentStage The parent stage that owns this dialog.
+     * @return True if the user confirms the action, false if canceled.
+     */
     public boolean showDialog(Stage parentStage) {
         try {
             // Load the FXML file for the dialog

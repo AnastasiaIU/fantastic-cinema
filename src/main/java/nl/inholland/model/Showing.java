@@ -40,6 +40,7 @@ public class Showing implements Serializable {
      * @param duration The duration of the showing.
      * @param title The title of the movie being shown.
      * @param reservedSeats A 2D boolean array representing the reserved seats.
+     * @param isAgeChecked A boolean flag to indicate if the movie showing is age restricted.
      */
     public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, boolean[][] reservedSeats, boolean isAgeChecked) {
         this.id = id;
@@ -83,13 +84,32 @@ public class Showing implements Serializable {
     }
     public boolean getIsAgeChecked() { return isAgeChecked; }
 
+    /**
+     * Marks a seat as sold and updates the reserved seats matrix.
+     * This method increments the total number of tickets sold and sets the specific seat
+     * as reserved (true) based on the provided seat coordinates.
+     *
+     * @param seat An array containing the row and column indices of the seat to be reserved.
+     */
     public void sellTicket(int[] seat) {
         ticketsSold++;
         reservedSeats[seat[0]][seat[1]] = true;
     }
+
+    /**
+     * Checks if any tickets have been sold for this showing.
+     *
+     * @return true if at least one ticket has been sold, false otherwise.
+     */
     public boolean isTicketsSold() {
         return ticketsSold > 0;
     }
+
+    /**
+     * Calculates the total number of seats available in the showing.
+     *
+     * @return The total number of seats based on the dimensions of the reservedSeats array.
+     */
     public int getNumberOfSeats() {
         return reservedSeats.length * reservedSeats[0].length;
     }
