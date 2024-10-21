@@ -46,6 +46,8 @@ public class SellController implements Initializable {
     private TableColumn<Showing, String> startColumn;
     @FXML
     private TableColumn<Showing, String> endColumn;
+    @FXML
+    private TextField searchTextField;
 
     /**
      * Constructor for the SellController.
@@ -73,6 +75,26 @@ public class SellController implements Initializable {
 
         selectSeatsButton.setOnAction(event -> {
             showSelectSeatsView();
+        });
+
+        // Add search functionality
+        addSearchListener(showings);
+    }
+
+    private void addSearchListener(ObservableList<Showing> allShowings) {
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // If the search input has less than 3 characters, show all showings
+            if (newValue.length() < 3) {
+                sellsTableView.setItems(allShowings);
+            } else {
+                // Filter the showings based on the title containing the search text
+                ObservableList<Showing> filteredShowings = FXCollections.observableArrayList(
+                        allShowings.stream()
+                                .filter(showing -> showing.getTitle().toLowerCase().contains(newValue.toLowerCase()))
+                                .toList()
+                );
+                sellsTableView.setItems(filteredShowings);
+            }
         });
     }
 

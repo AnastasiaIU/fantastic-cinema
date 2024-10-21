@@ -8,6 +8,10 @@
 <VBox styleClass="padding-16" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <Label styleClass="title-label" text="Sell tickets"/>
     <Label styleClass="room-label" text="Room 1"/>
+    <HBox styleClass="spacing-6, bottom-padding-6">
+        <Label styleClass="pref-height-25" text="Search:"/>
+        <TextField fx:id="searchTextField" promptText="Enter (part of) the title" />
+    </HBox>
     <TableView fx:id="sellsTableView" cache="true" focusTraversable="false" maxHeight="1.7976931348623157E308"
                maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columns>
