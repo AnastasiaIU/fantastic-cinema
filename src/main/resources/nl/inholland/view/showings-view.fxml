@@ -37,5 +37,7 @@
                 text="Edit showing"/>
         <Button fx:id="deleteShowingButton" disable="true" mnemonicParsing="false" styleClass="red-button"
                 text="Delete showing"/>
+        <Button fx:id="exportShowingButton" mnemonicParsing="false" styleClass="gray-button"
+                text="Export showings"/>
     </HBox>
 </VBox>

@@ -9,9 +9,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import nl.inholland.Database;
 import nl.inholland.model.Showing;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -43,6 +46,8 @@ public class ShowingsController implements Initializable {
     private Button editShowingButton;
     @FXML
     private Button deleteShowingButton;
+    @FXML
+    private Button exportShowingButton;
     @FXML
     private Label errorLabel;
     @FXML
@@ -166,6 +171,44 @@ public class ShowingsController implements Initializable {
         editShowingButton.setOnAction(event -> {
             openAddEditView(false);
         });
+
+        exportShowingButton.setOnAction(event -> exportShowingsToCSV());
+    }
+
+    private void exportShowingsToCSV() {
+        // Configure the FileChooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Showings as CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        // Show the Save dialog
+        File file = fileChooser.showSaveDialog(exportShowingButton.getScene().getWindow());
+
+        if (file != null) {
+            writeShowingsToCSV(file);
+        }
+    }
+
+    private void writeShowingsToCSV(File file) {
+        try (FileWriter writer = new FileWriter(file)) {
+            // Write the data for each showing
+            for (Showing showing : database.getShowings()) {
+                LocalDateTime startDateTime = showing.getStartDateTime();
+                LocalDateTime endDateTime = startDateTime.plusSeconds(showing.getDuration().toSecondOfDay());
+                String title = showing.getTitle();
+                int seatsLeft = showing.getNumberOfSeats() - showing.getTicketsSold();
+
+                // Format the data in CSV format
+                writer.write(String.format("%s,%s,%s,%d\n",
+                        startDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")),
+                        endDateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")),
+                        title,
+                        seatsLeft));
+            }
+        } catch (IOException e) {
+            // Handle exception (e.g., show an alert dialog)
+            throw new RuntimeException(e);
+        }
     }
 
     /**
