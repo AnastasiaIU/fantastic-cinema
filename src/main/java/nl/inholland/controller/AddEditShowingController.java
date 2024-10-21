@@ -158,6 +158,7 @@ public class AddEditShowingController implements Initializable {
      * @param startDate The start date of the showing.
      * @param duration  The duration of the showing.
      * @param title     The title of the showing.
+     * @param isAgeChecked The age restriction status of the showing.
      * @return The updated or new showing instance.
      */
     private Showing getShowing(LocalDate startDate, LocalTime duration, String title, boolean isAgeChecked) {
