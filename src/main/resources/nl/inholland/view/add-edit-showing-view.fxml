@@ -34,6 +34,7 @@
         </HBox>
         <Label styleClass="bottom-padding-6" text="End date and time:"/>
         <Label fx:id="endDateTimeLabel" styleClass="bottom-padding-6" text="DD-MM-YYYY HH:MM"/>
+        <CheckBox fx:id="ageCheckBox" styleClass="bottom-padding-6, top-padding-6" text="Require the check if customer is over 16." />
     </VBox>
     <Label fx:id="roomAvailabilityPromptLabel" styleClass="prompt-label"
            text="The selected time slot overlaps with an existing showing. Please choose another time." visible="false">

@@ -28,6 +28,8 @@ public class Showing implements Serializable {
     private String title;
     // A 2D boolean array representing reserved seats in the theater
     private final boolean[][] reservedSeats;
+    // A boolean flag to indicate if the movie showing is age restricted
+    private boolean isAgeChecked;
 
     /**
      * Constructs a new Showing instance with the specified details.
@@ -39,13 +41,14 @@ public class Showing implements Serializable {
      * @param title The title of the movie being shown.
      * @param reservedSeats A 2D boolean array representing the reserved seats.
      */
-    public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, boolean[][] reservedSeats) {
+    public Showing(int id, LocalDateTime startDateTime, int ticketsSold, LocalTime duration, String title, boolean[][] reservedSeats, boolean isAgeChecked) {
         this.id = id;
         this.startDateTime = startDateTime;
         this.ticketsSold = ticketsSold;
         this.duration = duration;
         this.title = title;
         this.reservedSeats = reservedSeats;
+        this.isAgeChecked = isAgeChecked;
     }
 
     // Getter and setter methods for the class fields
@@ -61,6 +64,7 @@ public class Showing implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+    public void setIsAgeChecked(boolean isAgeChecked) { this.isAgeChecked = isAgeChecked; }
     public int getId() { return id; }
     public LocalDateTime getStartDateTime() {
         return startDateTime;
@@ -77,6 +81,8 @@ public class Showing implements Serializable {
     public boolean[][] getReservedSeats() {
         return reservedSeats;
     }
+    public boolean getIsAgeChecked() { return isAgeChecked; }
+
     public void sellTicket(int[] seat) {
         ticketsSold++;
         reservedSeats[seat[0]][seat[1]] = true;

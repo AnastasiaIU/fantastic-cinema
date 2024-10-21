@@ -57,9 +57,9 @@ public class Database implements Serializable {
         initializeSeats(reservedSeats52, seats52);
 
         // Add some showings
-        showings.add(new Showing(0, LocalDateTime.of(2024, 11, 15, 14, 0), 10, LocalTime.of(2, 30), "Joker: Folie à Deux", seats10));
-        showings.add(new Showing(1, LocalDateTime.of(2024, 11, 12, 18, 0), 0, LocalTime.of(2, 0), "The Wild Robot", seats0));
-        showings.add(new Showing(2, LocalDateTime.of(2024, 10, 10, 16, 30), 52, LocalTime.of(3, 10), "Beetlejuice Beetlejuice", seats52));
+        showings.add(new Showing(0, LocalDateTime.of(2024, 11, 15, 14, 0), 10, LocalTime.of(2, 30), "Joker: Folie à Deux", seats10, true));
+        showings.add(new Showing(1, LocalDateTime.of(2024, 11, 12, 18, 0), 0, LocalTime.of(2, 0), "The Wild Robot", seats0, false));
+        showings.add(new Showing(2, LocalDateTime.of(2024, 10, 10, 16, 30), 52, LocalTime.of(3, 10), "Beetlejuice Beetlejuice", seats52, true));
 
         // Add selling data
         addSells();

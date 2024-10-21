@@ -26,7 +26,8 @@ import java.util.ResourceBundle;
  */
 public class SellController implements Initializable {
     // Formatter for date and time values in dd-MM-yyyy HH:mm format
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    private final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
     // Reference to the shared Database instance
     private final Database database;
     // Reference to the root VBox container of the scene
@@ -84,10 +85,10 @@ public class SellController implements Initializable {
                 c -> new SimpleStringProperty(c.getValue().getTicketsSold() + "/" + c.getValue().getNumberOfSeats())
         );
         endColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(formatter))
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().plusSeconds(c.getValue().getDuration().toSecondOfDay()).format(FORMATTER))
         );
         startColumn.setCellValueFactory(
-                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(formatter))
+                c -> new SimpleStringProperty(c.getValue().getStartDateTime().format(FORMATTER))
         );
     }
 
@@ -111,8 +112,8 @@ public class SellController implements Initializable {
     private void setComparatorForColumn(TableColumn<Showing, String> column) {
         column.setComparator((date1, date2) -> {
             // Parse the date strings into LocalDateTime objects using the formatter
-            LocalDateTime dt1 = LocalDateTime.parse(date1, formatter);
-            LocalDateTime dt2 = LocalDateTime.parse(date2, formatter);
+            LocalDateTime dt1 = LocalDateTime.parse(date1, FORMATTER);
+            LocalDateTime dt2 = LocalDateTime.parse(date2, FORMATTER);
             // Compare the parsed LocalDateTime objects
             return dt1.compareTo(dt2);
         });
@@ -143,7 +144,7 @@ public class SellController implements Initializable {
      */
     private void setSelectedShowingLabel() {
         Showing selectedShowing = sellsTableView.getSelectionModel().getSelectedItem();
-        String date = formatter.format(selectedShowing.getStartDateTime());
+        String date = FORMATTER.format(selectedShowing.getStartDateTime());
         selectedLabel.setText(date + " " + selectedShowing.getTitle());
     }
 

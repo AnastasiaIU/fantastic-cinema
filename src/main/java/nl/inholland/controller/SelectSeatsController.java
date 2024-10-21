@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.inholland.Database;
 import nl.inholland.model.Selling;
 import nl.inholland.model.Showing;
@@ -188,10 +190,21 @@ public class SelectSeatsController implements Initializable {
         int ticketsSold = chosenSeats.size();
         Selling selling = new Selling(-1, now, ticketsSold, selectedShowing, customerName, new ArrayList<>(chosenSeats));
 
-        database.addSelling(selling);
+        Stage mainStage = (Stage) root.getScene().getWindow();
 
-        for (int[] chosenSeat : chosenSeats) {
-            database.sellTicket(selectedShowing.getId(), chosenSeat);
+        if (selling.getShowing().getIsAgeChecked()) {
+            AgeCheckController ageCheckController = new AgeCheckController(database, selling);
+            boolean isConfirmed = ageCheckController.showDialog(mainStage);
+
+            if (isConfirmed) {
+                database.addSelling(selling);
+
+                for (int[] chosenSeat : chosenSeats) {
+                    database.sellTicket(selectedShowing.getId(), chosenSeat);
+                }
+            } else {
+                openSellView();
+            }
         }
     }
 

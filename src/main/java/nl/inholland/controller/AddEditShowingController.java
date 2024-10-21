@@ -30,9 +30,10 @@ import java.util.ResourceBundle;
  */
 public class AddEditShowingController implements Initializable {
     // Pseudo-class for error styling
-    private final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    private final PseudoClass ERROR_CLASS = PseudoClass.getPseudoClass("error");
     // Formatter for date values in dd-MM-yyyy format
-    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     // Reference to the shared Database instance
     private final Database database;
     // Reference to the root VBox container of the scene
@@ -71,6 +72,8 @@ public class AddEditShowingController implements Initializable {
     private Button confirmButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private CheckBox ageCheckBox;
 
     /**
      * Constructor for the controller.
@@ -113,7 +116,7 @@ public class AddEditShowingController implements Initializable {
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
-                    return dateFormatter.format(date);
+                    return DATE_FORMATTER.format(date);
                 }
 
                 return "";
@@ -157,7 +160,7 @@ public class AddEditShowingController implements Initializable {
      * @param title     The title of the showing.
      * @return The updated or new showing instance.
      */
-    private Showing getShowing(LocalDate startDate, LocalTime duration, String title) {
+    private Showing getShowing(LocalDate startDate, LocalTime duration, String title, boolean isAgeChecked) {
         Showing showing;
 
         if (isAdd) {
@@ -167,7 +170,8 @@ public class AddEditShowingController implements Initializable {
                     0,
                     duration,
                     title,
-                    new boolean[6][12]
+                    new boolean[6][12],
+                    isAgeChecked
             );
         } else {
             showing = selectedShowing;
@@ -176,6 +180,7 @@ public class AddEditShowingController implements Initializable {
                     LocalDateTime.of(startDate, LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue()))
             );
             showing.setDuration(duration);
+            showing.setIsAgeChecked(isAgeChecked);
         }
 
         return showing;
@@ -206,7 +211,7 @@ public class AddEditShowingController implements Initializable {
      */
     private LocalDate tryParseLocalDate(String input) {
         try {
-            return LocalDate.parse(input, dateFormatter);
+            return LocalDate.parse(input, DATE_FORMATTER);
         } catch (DateTimeParseException e) {
             return null;
         }
@@ -219,7 +224,7 @@ public class AddEditShowingController implements Initializable {
      */
     private void showTitleError(boolean show) {
         titlePromptLabel.setVisible(show);
-        titleTextField.pseudoClassStateChanged(errorClass, show);
+        titleTextField.pseudoClassStateChanged(ERROR_CLASS, show);
     }
 
     /**
@@ -229,7 +234,7 @@ public class AddEditShowingController implements Initializable {
      */
     private void showStartDateError(boolean show) {
         startDateTimePromptLabel.setVisible(show);
-        startDatePicker.pseudoClassStateChanged(errorClass, show);
+        startDatePicker.pseudoClassStateChanged(ERROR_CLASS, show);
     }
 
     /**
@@ -239,8 +244,8 @@ public class AddEditShowingController implements Initializable {
      */
     private void showDurationTimeError(boolean show) {
         durationDateTimePromptLabel.setVisible(show);
-        durationHoursSpinner.pseudoClassStateChanged(errorClass, show);
-        durationMinutesSpinner.pseudoClassStateChanged(errorClass, show);
+        durationHoursSpinner.pseudoClassStateChanged(ERROR_CLASS, show);
+        durationMinutesSpinner.pseudoClassStateChanged(ERROR_CLASS, show);
     }
 
     /**
@@ -252,9 +257,9 @@ public class AddEditShowingController implements Initializable {
      */
     private void showRoomAvailabilityError(boolean show) {
         roomAvailabilityPromptLabel.setVisible(show);
-        startDatePicker.pseudoClassStateChanged(errorClass, show);
-        startHoursSpinner.pseudoClassStateChanged(errorClass, show);
-        startMinutesSpinner.pseudoClassStateChanged(errorClass, show);
+        startDatePicker.pseudoClassStateChanged(ERROR_CLASS, show);
+        startHoursSpinner.pseudoClassStateChanged(ERROR_CLASS, show);
+        startMinutesSpinner.pseudoClassStateChanged(ERROR_CLASS, show);
     }
 
     /**
@@ -282,7 +287,7 @@ public class AddEditShowingController implements Initializable {
             }
 
             // Update the label with the end date and time
-            endDateTimeLabel.setText(dateFormatter.format(startDate) + " " + endTime);
+            endDateTimeLabel.setText(DATE_FORMATTER.format(startDate) + " " + endTime);
         } else {
             endDateTimeLabel.setText("DD-MM-YYYY HH:MM");
         }
@@ -298,7 +303,7 @@ public class AddEditShowingController implements Initializable {
         LocalDate value = datePicker.getValue();
 
         if (value != null) {
-            return dateFormatter.format(value);
+            return DATE_FORMATTER.format(value);
         }
 
         String editorText = datePicker.getEditor().getText();
@@ -337,6 +342,7 @@ public class AddEditShowingController implements Initializable {
         titleTextField.setText(selectedShowing.getTitle());
         startDatePicker.setValue(selectedShowing.getStartDateTime().toLocalDate());
         updateEndDateTimeLabel();
+        ageCheckBox.setSelected(selectedShowing.getIsAgeChecked());
     }
 
     /**
@@ -383,6 +389,7 @@ public class AddEditShowingController implements Initializable {
             LocalDate startDate = tryParseLocalDate(getDatePickerString(startDatePicker));
             LocalTime duration = LocalTime.of(durationHoursSpinner.getValue(), durationMinutesSpinner.getValue());
             int durationInMinutes = duration.getHour() + duration.getMinute();
+            boolean isAgeChecked = ageCheckBox.isSelected();
 
             displayErrors(title, startDate, durationInMinutes);
 
@@ -390,7 +397,7 @@ public class AddEditShowingController implements Initializable {
                 LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.of(startHoursSpinner.getValue(), startMinutesSpinner.getValue()));
 
                 if (isRoomAvailable(startDateTime, duration)) {
-                    Showing showing = getShowing(startDate, duration, title);
+                    Showing showing = getShowing(startDate, duration, title, isAgeChecked);
                     database.addUpdateShowing(showing);
                     openShowingsView();
                 } else {
